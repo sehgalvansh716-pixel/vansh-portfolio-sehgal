@@ -24,55 +24,57 @@ export default function Skills() {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduced) return;
 
-    // Heading reveal
-    if (headingRef.current) {
-      try {
-        const split = new SplitText(headingRef.current, { type: "words" });
-        gsap.from(split.words, {
-          y: 40, opacity: 0, stagger: 0.06, duration: 0.7, ease: "power3.out",
-          scrollTrigger: { trigger: headingRef.current, start: "top 80%", once: true },
+    const ctx = gsap.context(() => {
+      // Heading reveal
+      if (headingRef.current) {
+        try {
+          const split = new SplitText(headingRef.current, { type: "words" });
+          gsap.from(split.words, {
+            y: 40, opacity: 0, stagger: 0.06, duration: 0.7, ease: "power3.out",
+            scrollTrigger: { trigger: headingRef.current, start: "top 80%", once: true },
+          });
+        } catch { /* noop */ }
+      }
+
+      // Skill pills stagger
+      if (pillsRef.current) {
+        const pills = pillsRef.current.querySelectorAll("[data-pill]");
+        gsap.fromTo(
+          pills,
+          { y: 20, opacity: 0 },
+          {
+            y: 0, opacity: 1, stagger: 0.03, duration: 0.5, ease: "power2.out",
+            scrollTrigger: { trigger: pillsRef.current, start: "top 95%", once: true },
+          }
+        );
+      }
+
+      // AI cards stagger
+      if (cardsContainerRef.current) {
+        const cards = cardsContainerRef.current.querySelectorAll("[data-ai-card]");
+        gsap.fromTo(
+          cards,
+          { y: 30, opacity: 0 },
+          {
+            y: 0, opacity: 1, stagger: 0.05, duration: 0.65, ease: "power3.out",
+            scrollTrigger: { trigger: cardsContainerRef.current, start: "top 95%", once: true },
+          }
+        );
+      }
+
+      // Progress bar animations
+      progressBars.current.forEach((bar) => {
+        if (!bar) return;
+        gsap.from(bar, {
+          width: "0%",
+          duration: 1.2,
+          ease: "power2.out",
+          scrollTrigger: { trigger: bar, start: "top 90%", once: true },
         });
-      } catch { /* noop */ }
-    }
-
-    // Skill pills stagger
-    if (pillsRef.current) {
-      const pills = pillsRef.current.querySelectorAll("[data-pill]");
-      gsap.fromTo(
-        pills,
-        { y: 20, opacity: 0 },
-        {
-          y: 0, opacity: 1, stagger: 0.03, duration: 0.5, ease: "power2.out",
-          scrollTrigger: { trigger: pillsRef.current, start: "top 95%", once: true },
-        }
-      );
-    }
-
-    // AI cards stagger
-    if (cardsContainerRef.current) {
-      const cards = cardsContainerRef.current.querySelectorAll("[data-ai-card]");
-      gsap.fromTo(
-        cards,
-        { y: 30, opacity: 0 },
-        {
-          y: 0, opacity: 1, stagger: 0.05, duration: 0.65, ease: "power3.out",
-          scrollTrigger: { trigger: cardsContainerRef.current, start: "top 95%", once: true },
-        }
-      );
-    }
-
-    // Progress bar animations
-    progressBars.current.forEach((bar) => {
-      if (!bar) return;
-      gsap.from(bar, {
-        width: "0%",
-        duration: 1.2,
-        ease: "power2.out",
-        scrollTrigger: { trigger: bar, start: "top 90%", once: true },
       });
-    });
+    }, sectionRef);
 
-    return () => { ScrollTrigger.getAll().forEach((t) => t.kill()); };
+    return () => ctx.revert();
   }, []);
 
   return (

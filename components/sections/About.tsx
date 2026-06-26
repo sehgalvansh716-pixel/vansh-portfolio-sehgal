@@ -19,95 +19,96 @@ export default function About() {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduced) return;
 
-    // Heading reveal
-    if (headingRef.current) {
-      try {
-        const split = new SplitText(headingRef.current, { type: "words" });
-        gsap.from(split.words, {
-          y: 40,
-          opacity: 0,
-          stagger: 0.06,
-          duration: 0.7,
-          ease: "power3.out",
-          scrollTrigger: { trigger: headingRef.current, start: "top 80%", once: true },
-        });
-      } catch { /* SplitText unavailable */ }
-    }
+    const ctx = gsap.context(() => {
+      // Heading reveal
+      if (headingRef.current) {
+        try {
+          const split = new SplitText(headingRef.current, { type: "words" });
+          gsap.from(split.words, {
+            y: 40,
+            opacity: 0,
+            stagger: 0.06,
+            duration: 0.7,
+            ease: "power3.out",
+            scrollTrigger: { trigger: headingRef.current, start: "top 80%", once: true },
+          });
+        } catch { /* SplitText unavailable */ }
+      }
 
-    // Bio character-level scroll scrub
-    if (bioRef.current) {
-      try {
-        const split = new SplitText(bioRef.current, { type: "chars" });
-        gsap.from(split.chars, {
-          opacity: 0.1,
-          stagger: 0.008,
+      // Bio character-level scroll scrub
+      if (bioRef.current) {
+        try {
+          const split = new SplitText(bioRef.current, { type: "chars" });
+          gsap.from(split.chars, {
+            opacity: 0.1,
+            stagger: 0.008,
+            ease: "none",
+            scrollTrigger: {
+              trigger: bioRef.current,
+              start: "top 75%",
+              end: "bottom 55%",
+              scrub: 1,
+            },
+          });
+        } catch { /* SplitText unavailable */ }
+      }
+
+      // Photo slide in
+      if (photoRef.current) {
+        gsap.fromTo(
+          photoRef.current,
+          { x: -50, opacity: 0 },
+          {
+            x: 0,
+            opacity: 1,
+            duration: 0.9,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: photoRef.current,
+              start: "top 90%",
+              once: true,
+            },
+          }
+        );
+      }
+
+      // Accent frame parallax
+      if (accentFrameRef.current) {
+        gsap.to(accentFrameRef.current, {
+          y: -30,
           ease: "none",
           scrollTrigger: {
-            trigger: bioRef.current,
-            start: "top 75%",
-            end: "bottom 55%",
-            scrub: 1,
+            trigger: sectionRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 0.5,
           },
         });
-      } catch { /* SplitText unavailable */ }
-    }
-
-    // Photo slide in
-    // Photo reveal — use fromTo so photo is never stuck invisible
-    if (photoRef.current) {
-      gsap.fromTo(
-        photoRef.current,
-        { x: -50, opacity: 0 },
-        {
-          x: 0,
-          opacity: 1,
-          duration: 0.9,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: photoRef.current,
-            start: "top 90%",
-            once: true,
-          },
-        }
-      );
-    }
-
-    // Accent frame parallax
-    if (accentFrameRef.current) {
-      gsap.to(accentFrameRef.current, {
-        y: -30,
-        ease: "none",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 0.5,
-        },
-      });
-    }
-
-    // Stat container stagger fade up
-    if (statsRef.current) {
-      const statCards = statsRef.current.children;
-      gsap.fromTo(
-        statCards,
-        { y: 30, opacity: 0 },
-        {
-          y: 0, opacity: 1, stagger: 0.1, duration: 0.7, ease: "power3.out",
-          scrollTrigger: { trigger: statsRef.current, start: "top 95%", once: true },
-        }
-      );
-    }
-
-    // Stat count-up
-    siteConfig.stats.forEach((stat, i) => {
-      const el = statNumbers.current[i];
-      if (el && statsRef.current) {
-        countUpAnimation(el, stat.value, stat.suffix, statsRef.current);
       }
-    });
 
-    return () => { ScrollTrigger.getAll().forEach((t) => t.kill()); };
+      // Stat container stagger fade up
+      if (statsRef.current) {
+        const statCards = statsRef.current.children;
+        gsap.fromTo(
+          statCards,
+          { y: 30, opacity: 0 },
+          {
+            y: 0, opacity: 1, stagger: 0.1, duration: 0.7, ease: "power3.out",
+            scrollTrigger: { trigger: statsRef.current, start: "top 95%", once: true },
+          }
+        );
+      }
+
+      // Stat count-up
+      siteConfig.stats.forEach((stat, i) => {
+        const el = statNumbers.current[i];
+        if (el && statsRef.current) {
+          countUpAnimation(el, stat.value, stat.suffix, statsRef.current);
+        }
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
   }, []);
 
   return (
