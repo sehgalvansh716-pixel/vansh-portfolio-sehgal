@@ -147,7 +147,7 @@ export default function Projects() {
 }
 
 function ProjectCard({ project, tall }: { project: Project; tall: boolean }) {
-  const cardRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLAnchorElement>(null);
 
   const handleMouseEnter = () => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -169,8 +169,8 @@ function ProjectCard({ project, tall }: { project: Project; tall: boolean }) {
     // AI card: higher opacity in both dark and light mode
     imageOpacityClasses = "opacity-[0.6] group-hover:opacity-[0.8]";
   } else {
-    // Normal cards: subtle in dark mode, vibrant in light mode
-    imageOpacityClasses = "opacity-20 group-hover:opacity-40 [.light_&]:opacity-[0.6] [.light_&]:group-hover:opacity-[0.8]";
+    // Standard cards
+    imageOpacityClasses = "opacity-[0.25] group-hover:opacity-[0.45]";
   }
 
   return (
@@ -178,7 +178,7 @@ function ProjectCard({ project, tall }: { project: Project; tall: boolean }) {
       href={project.liveUrl}
       target="_blank"
       rel="noopener noreferrer"
-      ref={cardRef as React.RefObject<HTMLAnchorElement>}
+      ref={cardRef}
       data-project-card
       data-cursor="card"
       onMouseEnter={handleMouseEnter}
