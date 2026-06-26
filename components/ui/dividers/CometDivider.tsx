@@ -31,11 +31,11 @@ export default function CometDivider() {
       const baseX = 100 + (500 * progress);
       const baseY = 20 + (160 * progress);
       
-      const x = baseX + (prng() - 0.5) * spread;
-      const y = baseY + (prng() - 0.5) * spread;
+      const x = parseFloat((baseX + (prng() - 0.5) * spread).toFixed(2));
+      const y = parseFloat((baseY + (prng() - 0.5) * spread).toFixed(2));
       
-      const size = prng() * 2 + 0.5;
-      const opacity = progress * prng(); 
+      const size = parseFloat((prng() * 2 + 0.5).toFixed(2));
+      const opacity = parseFloat((progress * prng()).toFixed(2)); 
       
       particles.push({ id: i, x, y, size, opacity });
     }
@@ -44,10 +44,16 @@ export default function CometDivider() {
     const cityLights = [];
     for (let i = 0; i < 200; i++) {
       const angle = prng() * Math.PI;
-      const cx = 500 + Math.cos(angle) * 800;
-      const cy = 1100 - Math.sin(angle) * 780; 
+      const cx = parseFloat((500 + Math.cos(angle) * 800).toFixed(2));
+      const cy = parseFloat((1100 - Math.sin(angle) * 780).toFixed(2)); 
       if (cy > 320 && cx > -100 && cx < 1100) {
-        cityLights.push({ id: i, cx, cy, r: prng() * 1.5, opacity: prng() * 0.8 });
+        cityLights.push({ 
+          id: i, 
+          cx, 
+          cy, 
+          r: parseFloat((prng() * 1.5).toFixed(2)), 
+          opacity: parseFloat((prng() * 0.8).toFixed(2)) 
+        });
       }
     }
 
