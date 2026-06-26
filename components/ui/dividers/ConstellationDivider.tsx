@@ -17,8 +17,8 @@ export default function ConstellationDivider() {
     
     for (let i = 0; i < numNodes; i++) {
       const t = i * 0.2;
-      const x = 500 + 450 * Math.sin(3 * t) * Math.cos(t);
-      const y = 150 + 120 * Math.sin(2 * t);
+      const x = parseFloat((500 + 450 * Math.sin(3 * t) * Math.cos(t)).toFixed(2));
+      const y = parseFloat((150 + 120 * Math.sin(2 * t)).toFixed(2));
       const radius = i % 5 === 0 ? 4 : (i % 3 === 0 ? 2 : 1);
       const isPrimary = i % 5 === 0;
       
