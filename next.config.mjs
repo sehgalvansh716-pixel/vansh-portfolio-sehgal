@@ -1,0 +1,15 @@
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // Prevent SSR errors from Three.js / GSAP browser-only APIs
+  experimental: {},
+  webpack: (config) => {
+    // Fixes for Three.js ESM modules
+    config.externals = config.externals || [];
+    return config;
+  },
+  images: {
+    formats: ["image/avif", "image/webp"],
+  },
+};
+
+export default nextConfig;

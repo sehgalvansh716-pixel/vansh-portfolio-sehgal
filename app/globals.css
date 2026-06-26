@@ -1,0 +1,235 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── CSS Variables ─────────────────────────────────────────── */
+:root {
+  --brand-black: #080A09;
+  --brand-white: #F0FFF8;
+  --accent-primary: #10B981;
+  --accent-secondary: #34D399;
+  --accent-dim: #059669;
+  --muted: #6B7280;
+  --surface: #0F1510;
+  --glass-border: rgba(16, 185, 129, 0.12);
+  --font-display: var(--font-syne);
+  --font-mono: var(--font-jetbrains);
+  --font-body: var(--font-inter);
+  --video-invert: invert(0);
+  --hero-bg-solid: #080A09;
+}
+
+.hero-video-dark { display: block; }
+.hero-video-light { display: none; }
+
+.light {
+  --brand-black: #F8FAFC;
+  --brand-white: #020617;
+  --accent-primary: #059669;
+  --accent-secondary: #10B981;
+  --accent-dim: #D1FAE5;
+  --muted: #475569;
+  --surface: #F1F5F9;
+  --glass-border: rgba(5, 150, 105, 0.2);
+
+  --video-invert: invert(0) opacity(1);
+  --hero-bg-solid: #F8FAFC;
+}
+
+.light .hero-video-dark { display: none; }
+.light .hero-video-light { display: block; }
+
+/* ─── Base Reset ────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: auto; /* Lenis handles smooth scroll */
+  background-color: var(--brand-black);
+  color: var(--brand-white);
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-body), sans-serif;
+  background-color: var(--brand-black);
+  color: var(--brand-white);
+  overflow-x: hidden;
+  cursor: none; /* Custom cursor replaces default */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Custom Scrollbar ──────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--brand-black);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--accent-dim);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-primary);
+}
+
+/* ─── Selection ─────────────────────────────────────────────── */
+::selection {
+  background: rgba(16, 185, 129, 0.25);
+  color: var(--brand-white);
+}
+
+/* ─── Focus Visible ─────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ─── Skip Link ─────────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--accent-primary);
+  color: var(--brand-black);
+  padding: 8px 16px;
+  z-index: 10000;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  top: 0;
+}
+
+/* ─── Keyframes ─────────────────────────────────────────────── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(16,185,129,0.15); }
+  50%       { box-shadow: 0 0 40px rgba(16,185,129,0.35); }
+}
+
+@keyframes drawLine {
+  from { transform: scaleY(0); }
+  to   { transform: scaleY(1); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Utility: Marquee Pause ────────────────────────────────── */
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* ─── Utility: Clip Overflow ────────────────────────────────── */
+.clip-overflow {
+  overflow: hidden;
+}
+
+/* ─── Glass Morphism Base ───────────────────────────────────── */
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(16, 185, 129, 0.12);
+  border-radius: 16px;
+}
+
+/* ─── Gradient Text ─────────────────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Shimmer Text ──────────────────────────────────────────── */
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    var(--accent-secondary) 0%,
+    var(--brand-white) 40%,
+    var(--accent-primary) 60%,
+    var(--accent-secondary) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 2.5s linear infinite;
+}
+
+/* ─── Nav Link Hover Effect (dual span) ─────────────────────── */
+.nav-link {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  height: 1.2em;
+}
+.nav-link span {
+  display: block;
+  transition: transform 0.35s cubic-bezier(0.76, 0, 0.24, 1);
+}
+.nav-link .nav-link-hover {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  color: var(--accent-primary);
+}
+.nav-link:hover span:first-child {
+  transform: translateY(-100%);
+}
+.nav-link:hover .nav-link-hover {
+  transform: translateY(-100%);
+}
+
+/* ─── Blinking Cursor ───────────────────────────────────────── */
+.blink-cursor {
+  animation: blink 1s step-end infinite;
+  color: var(--accent-primary);
+}
+
+/* ─── Reduced Motion ────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ─── Touch Device: restore default cursor ──────────────────── */
+@media (pointer: coarse) {
+  body {
+    cursor: auto;
+  }
+}
