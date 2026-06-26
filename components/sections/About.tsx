@@ -4,7 +4,7 @@ import Image from "next/image";
 import { gsap } from "@/lib/gsap";
 import { SplitText, ScrollTrigger } from "@/lib/gsap";
 import { siteConfig } from "@/data/site.config";
-import { countUpAnimation, slideInFrom } from "@/lib/animations";
+import { countUpAnimation } from "@/lib/animations";
 
 export default function About() {
   const sectionRef = useRef<HTMLElement>(null);

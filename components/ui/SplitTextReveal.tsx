@@ -59,7 +59,7 @@ export default function SplitTextReveal({
   }, [type, delay, stagger, from]);
 
   return (
-    // @ts-ignore — dynamic tag
+    // @ts-expect-error — dynamic tag
     <Tag ref={ref} className={`overflow-hidden ${className}`}>
       {children}
     </Tag>

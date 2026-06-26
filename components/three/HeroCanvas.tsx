@@ -2,7 +2,7 @@
 import { useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense } from "react";
 import { useTheme } from "next-themes";
 
 function VortexParticles({ distortionRef }: { distortionRef: React.MutableRefObject<number> }) {

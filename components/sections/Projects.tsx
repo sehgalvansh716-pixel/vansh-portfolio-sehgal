@@ -178,7 +178,7 @@ function ProjectCard({ project, tall }: { project: Project; tall: boolean }) {
       href={project.liveUrl}
       target="_blank"
       rel="noopener noreferrer"
-      ref={cardRef as any}
+      ref={cardRef as React.RefObject<HTMLAnchorElement>}
       data-project-card
       data-cursor="card"
       onMouseEnter={handleMouseEnter}

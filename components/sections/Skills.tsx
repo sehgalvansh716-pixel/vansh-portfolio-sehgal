@@ -2,7 +2,6 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "@/lib/gsap";
 import { SplitText, ScrollTrigger } from "@/lib/gsap";
-import GlassCard from "@/components/ui/GlassCard";
 import { skillCategories, aiCapabilities } from "@/data/skills.data";
 import {
   Globe, Palette, ShieldCheck, Lock, FileText, BarChart2,
@@ -65,7 +64,6 @@ export default function Skills() {
     // Progress bar animations
     progressBars.current.forEach((bar, i) => {
       if (!bar) return;
-      const target = aiCapabilities[i].score * 10;
       gsap.from(bar, {
         width: "0%",
         duration: 1.2,
