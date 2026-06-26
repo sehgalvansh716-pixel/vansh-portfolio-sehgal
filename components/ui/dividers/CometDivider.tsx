@@ -185,20 +185,13 @@ export default function CometDivider() {
 
         {/* --- COMET CORE --- */}
         <g ref={coreRef}>
-            " 
-            fill="#facc15" opacity="0.8"
-          />
-          <polygon 
-            points="
-              582,185 590,192 585,198 578,190
-            " 
-            fill="#f97316" opacity="0.9"
-          />
-          
-          {/* Breaking Fragments */}
-          <polygon points="570,160 575,158 572,165" fill="#ffffff" />
-          <polygon points="560,180 562,175 565,182" fill="#facc15" />
-          <polygon points="580,205 585,200 588,208" fill="#f97316" />
+          {/* Main Glow */}
+          <circle cx="500" cy="310" r="40" fill="url(#coreGlow)" filter="url(#hyperBlur)" />
+          <circle cx="500" cy="310" r="15" fill="#ffffff" filter="url(#softBlur)" />
+          {/* Solid Core */}
+          <circle cx="500" cy="310" r="5" fill="#ffffff" />
+          {/* Core Starburst */}
+          <path d="M 470,310 L 530,310 M 500,280 L 500,340" stroke="#ffffff" strokeWidth="2" filter="url(#softBlur)" />
         </g>
       </svg>
     </div>
