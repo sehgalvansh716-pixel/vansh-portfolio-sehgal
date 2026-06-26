@@ -62,7 +62,7 @@ export default function Skills() {
     }
 
     // Progress bar animations
-    progressBars.current.forEach((bar, i) => {
+    progressBars.current.forEach((bar) => {
       if (!bar) return;
       gsap.from(bar, {
         width: "0%",
