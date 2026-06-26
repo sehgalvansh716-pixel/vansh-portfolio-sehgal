@@ -116,28 +116,26 @@ export function countUpAnimation(el: HTMLElement, target: number, suffix = "", t
     return;
   }
 
-  // Initialize text content so it's not blank before trigger
+  // Initialize text content
   el.textContent = "0" + suffix;
 
-  // Use a proxy object for GSAP to animate safely without reading the DOM string
-  const obj = { val: 0 };
-  gsap.fromTo(
-    obj,
-    { val: 0 },
-    {
-      val: target,
-      duration: 1.8,
-      ease: "power2.out",
-      onUpdate: () => {
-        el.textContent = Math.round(obj.val) + suffix;
-      },
-      scrollTrigger: {
-        trigger: triggerEl || el,
-        start: "top 95%",
-        once: true,
-      },
+  // Animate a custom property on the DOM element itself 
+  // This is 100% immune to production bundler tree-shaking and object mangling
+  (el as any)._countVal = 0;
+  
+  gsap.to(el, {
+    _countVal: target,
+    duration: 1.8,
+    ease: "power2.out",
+    onUpdate: () => {
+      el.textContent = Math.round((el as any)._countVal) + suffix;
+    },
+    scrollTrigger: {
+      trigger: triggerEl || el,
+      start: "top 95%",
+      once: true,
     }
-  );
+  });
 }
 
 /**

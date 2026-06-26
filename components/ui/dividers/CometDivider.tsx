@@ -28,8 +28,8 @@ export default function CometDivider() {
       const progress = prng(); 
       const spread = (1 - progress) * 80; 
       
-      const baseX = 100 + (500 * progress);
-      const baseY = 20 + (160 * progress);
+      const baseX = parseFloat((-50 + (550 * progress)).toFixed(2));
+      const baseY = parseFloat((-50 + (360 * progress)).toFixed(2));
       
       const x = parseFloat((baseX + (prng() - 0.5) * spread).toFixed(2));
       const y = parseFloat((baseY + (prng() - 0.5) * spread).toFixed(2));
@@ -70,7 +70,7 @@ export default function CometDivider() {
     });
 
     gsap.set(earthRef.current.children, { opacity: 0, y: 50 });
-    gsap.set(coreRef.current, { scale: 0, opacity: 0, transformOrigin: "center", rotation: -45 });
+    gsap.set(coreRef.current, { scale: 0, opacity: 0, svgOrigin: "500 310", rotation: -45 });
     gsap.set(particlesRef.current.children, { scale: 0, opacity: 0, transformOrigin: "center" });
 
     const tl = gsap.timeline({
@@ -166,40 +166,25 @@ export default function CometDivider() {
         {/* --- COMET TAILS --- */}
         <g ref={tailLayersRef}>
           {/* Broad diffuse plasma trail */}
-          <path d="M 0,0 Q 300,100 600,180" stroke="url(#cometFire)" strokeWidth="80" strokeLinecap="round" filter="url(#hyperBlur)" opacity="0.5" />
-          <path d="M 50,20 Q 350,120 600,180" stroke="url(#cometFire)" strokeWidth="40" strokeLinecap="round" filter="url(#softBlur)" opacity="0.7" />
+          <path d="M -50,-50 Q 225,130 500,310" stroke="url(#cometFire)" strokeWidth="80" strokeLinecap="round" filter="url(#hyperBlur)" opacity="0.5" />
+          <path d="M 0,-20 Q 250,145 500,310" stroke="url(#cometFire)" strokeWidth="40" strokeLinecap="round" filter="url(#softBlur)" opacity="0.7" />
           
           {/* Inner intense energy beams */}
-          <path d="M 100,40 Q 400,140 600,180" stroke="url(#cometCore)" strokeWidth="15" strokeLinecap="round" filter="url(#softBlur)" />
-          <path d="M 150,60 Q 450,160 600,180" stroke="#ffffff" strokeWidth="5" strokeLinecap="round" />
-          <path d="M 120,30 Q 350,130 600,180" stroke="#fef08a" strokeWidth="3" strokeDasharray="20 10" opacity="0.8" />
-          <path d="M 80,60 Q 300,150 600,180" stroke="#f97316" strokeWidth="2" strokeDasharray="15 15" opacity="0.6" />
+          <path d="M 50,0 Q 275,155 500,310" stroke="url(#cometCore)" strokeWidth="15" strokeLinecap="round" filter="url(#softBlur)" />
+          <path d="M 100,20 Q 300,165 500,310" stroke="#ffffff" strokeWidth="5" strokeLinecap="round" />
+          <path d="M 70,-10 Q 285,150 500,310" stroke="#fef08a" strokeWidth="3" strokeDasharray="20 10" opacity="0.8" />
+          <path d="M 30,20 Q 265,165 500,310" stroke="#f97316" strokeWidth="2" strokeDasharray="15 15" opacity="0.6" />
         </g>
         
         {/* --- COMET PARTICLES --- */}
         <g ref={particlesRef} fill="#facc15">
           {details.particles.map((p, i) => (
-            <circle key={`p-${i}`} cx={p.x} cy={p.y} r={p.size} data-op={p.opacity} filter="url(#softBlur)" />
+            <circle key={`particle-${i}`} cx={p.x} cy={p.y} r={p.size} data-op={p.opacity} />
           ))}
         </g>
 
-        {/* --- ASTEROID CORE --- */}
+        {/* --- COMET CORE --- */}
         <g ref={coreRef}>
-          {/* Massive Core Glow */}
-          <circle cx="600" cy="180" r="50" fill="url(#coreGlow)" />
-          <circle cx="600" cy="180" r="15" fill="#ffffff" filter="url(#softBlur)" />
-          
-          {/* Jagged Low-Poly Rock */}
-          <polygon 
-            points="
-              585,175 595,165 610,168 618,178 
-              612,190 600,195 590,192 582,185
-            " 
-            fill="#ffffff" 
-          />
-          <polygon 
-            points="
-              595,165 605,160 615,165 610,168
             " 
             fill="#facc15" opacity="0.8"
           />
