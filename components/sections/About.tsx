@@ -4,7 +4,6 @@ import Image from "next/image";
 import { gsap } from "@/lib/gsap";
 import { SplitText } from "@/lib/gsap";
 import { siteConfig } from "@/data/site.config";
-import { countUpAnimation } from "@/lib/animations";
 
 export default function About() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -13,7 +12,6 @@ export default function About() {
   const photoRef = useRef<HTMLDivElement>(null);
   const accentFrameRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
-  const statNumbers = useRef<(HTMLSpanElement | null)[]>([]);
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -99,13 +97,7 @@ export default function About() {
         );
       }
 
-      // Stat count-up
-      siteConfig.stats.forEach((stat, i) => {
-        const el = statNumbers.current[i];
-        if (el && statsRef.current) {
-          countUpAnimation(el, stat.value, stat.suffix, statsRef.current);
-        }
-      });
+      // No count-up animation: stats render as static values
     }, sectionRef);
 
     return () => ctx.revert();
@@ -184,18 +176,15 @@ export default function About() {
               ref={statsRef}
               className="grid grid-cols-2 gap-6"
             >
-              {siteConfig.stats.map((stat, i) => (
+              {siteConfig.stats.map((stat) => (
                 <div key={stat.label} className="glass rounded-xl p-5">
                   <p
                     className="font-display font-bold text-brand-white leading-none mb-1"
                     style={{ fontSize: "clamp(48px, 6vw, 72px)" }}
                   >
-                    <span
-                      ref={(el) => { statNumbers.current[i] = el; }}
-                    >
-                      0
+                    <span>
+                      {stat.value}{stat.suffix}
                     </span>
-                    {stat.suffix.includes("+") || stat.suffix.includes("WPM") ? "" : ""}
                   </p>
                   <p className="font-mono text-xs uppercase tracking-[0.25em] text-muted">
                     {stat.label}
