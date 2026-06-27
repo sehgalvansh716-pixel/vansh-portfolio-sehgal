@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
 import { gsap } from "@/lib/gsap";
-import { SplitText, ScrollTrigger } from "@/lib/gsap";
+import { SplitText } from "@/lib/gsap";
 import { skillCategories, aiCapabilities } from "@/data/skills.data";
 import {
   Globe, Palette, ShieldCheck, Lock, FileText, BarChart2,
