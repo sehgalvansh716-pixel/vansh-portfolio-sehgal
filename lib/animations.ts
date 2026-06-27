@@ -119,16 +119,15 @@ export function countUpAnimation(el: HTMLElement, target: number, suffix = "", t
   // Initialize text content
   el.textContent = "0" + suffix;
 
-  // Animate a custom property on the DOM element itself 
-  // This is 100% immune to production bundler tree-shaking and object mangling
-  (el as any)._countVal = 0;
-  
-  gsap.to(el, {
-    _countVal: target,
+  // Use a local typed object for animation state to avoid `any`.
+  const counter = { val: 0 };
+
+  gsap.to(counter, {
+    val: target,
     duration: 1.8,
     ease: "power2.out",
     onUpdate: () => {
-      el.textContent = Math.round((el as any)._countVal) + suffix;
+      el.textContent = Math.round(counter.val) + suffix;
     },
     scrollTrigger: {
       trigger: triggerEl || el,

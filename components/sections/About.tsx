@@ -2,7 +2,7 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { gsap } from "@/lib/gsap";
-import { SplitText, ScrollTrigger } from "@/lib/gsap";
+import { SplitText } from "@/lib/gsap";
 import { siteConfig } from "@/data/site.config";
 import { countUpAnimation } from "@/lib/animations";
 
