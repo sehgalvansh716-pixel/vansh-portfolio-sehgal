@@ -6,9 +6,10 @@ import { skillCategories, aiCapabilities } from "@/data/skills.data";
 import {
   Globe, Palette, ShieldCheck, Lock, FileText, BarChart2,
   Bot, GitBranch, TestTube2, Cloud, Accessibility, Plug, Rocket, Cpu,
+  type LucideIcon,
 } from "lucide-react";
 
-const iconMap: Record<string, React.ElementType> = {
+const iconMap: Record<string, LucideIcon> = {
   Globe, Palette, ShieldCheck, Lock, FileText, BarChart2,
   Bot, GitBranch, TestTube2, Cloud, Accessibility, Plug, Rocket, Cpu,
 };

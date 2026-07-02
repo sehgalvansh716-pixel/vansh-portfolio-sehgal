@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { gsap, ScrollTrigger, SplitText } from "@/lib/gsap";
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
   stagger?: number;
   from?: gsap.TweenVars;
   className?: string;
-  as?: keyof JSX.IntrinsicElements;
+  as?: React.ElementType;
 };
 
 export default function SplitTextReveal({
