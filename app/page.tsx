@@ -15,7 +15,7 @@ import RibbonDivider from "@/components/ui/dividers/RibbonDivider";
 import VisionDivider from "@/components/ui/dividers/VisionDivider";
 import AscensionDivider from "@/components/ui/dividers/AscensionDivider";
 import ConstellationDivider from "@/components/ui/dividers/ConstellationDivider";
-import CpuScrollAnimation from "@/components/sections/CpuScrollAnimation";
+// import CpuScrollAnimation from "@/components/sections/CpuScrollAnimation";
 
 export const metadata: Metadata = {
   title: "Vansh Sehgal — Business Operations & Data Analyst",
