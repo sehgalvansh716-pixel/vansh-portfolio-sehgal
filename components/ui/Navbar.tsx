@@ -45,9 +45,14 @@ export default function Navbar() {
     const drawer = document.querySelector("[data-mobile-menu]") as HTMLElement;
     if (!drawer) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    
     if (menuOpen) {
       drawer.style.display = "flex";
-      if (!reduced) gsap.from(drawer, { x: "100%", duration: 0.4, ease: "power3.out" });
+      if (!reduced) {
+        gsap.to(drawer, { x: "0%", duration: 0.4, ease: "power3.out" });
+      } else {
+        gsap.set(drawer, { x: "0%" });
+      }
     } else {
       if (!reduced) {
         gsap.to(drawer, {
@@ -57,6 +62,7 @@ export default function Navbar() {
           onComplete: () => { drawer.style.display = "none"; },
         });
       } else {
+        gsap.set(drawer, { x: "100%" });
         drawer.style.display = "none";
       }
     }
@@ -138,7 +144,7 @@ export default function Navbar() {
       <div
         data-mobile-menu
         aria-label="Mobile navigation"
-        style={{ display: "none" }}
+        style={{ display: "none", transform: "translateX(100%)" }}
         className="fixed inset-y-0 right-0 w-full max-w-xs bg-surface border-l border-white/10 z-[60] flex-col p-8 pt-24"
       >
         <button
