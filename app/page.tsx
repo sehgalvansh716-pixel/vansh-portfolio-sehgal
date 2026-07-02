@@ -30,7 +30,7 @@ export default function Home() {
       <main id="main-content" tabIndex={-1}>
         <Hero />
         <MarqueeStrip />
-        <CpuScrollAnimation />
+        {/* <CpuScrollAnimation /> temporarily paused */}
         <About />
         <RibbonDivider />
         <Skills />
