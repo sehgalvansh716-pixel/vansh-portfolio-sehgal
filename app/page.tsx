@@ -11,11 +11,11 @@ import Contact from "@/components/sections/Contact";
 import Footer from "@/components/sections/Footer";
 
 // Custom SVG Dividers
-import CometDivider from "@/components/ui/dividers/CometDivider";
 import RibbonDivider from "@/components/ui/dividers/RibbonDivider";
 import VisionDivider from "@/components/ui/dividers/VisionDivider";
 import AscensionDivider from "@/components/ui/dividers/AscensionDivider";
 import ConstellationDivider from "@/components/ui/dividers/ConstellationDivider";
+import CpuScrollAnimation from "@/components/sections/CpuScrollAnimation";
 
 export const metadata: Metadata = {
   title: "Vansh Sehgal — Business Operations & Data Analyst",
@@ -30,7 +30,7 @@ export default function Home() {
       <main id="main-content" tabIndex={-1}>
         <Hero />
         <MarqueeStrip />
-        <CometDivider />
+        <CpuScrollAnimation />
         <About />
         <RibbonDivider />
         <Skills />

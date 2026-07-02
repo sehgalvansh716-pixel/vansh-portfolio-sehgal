@@ -166,11 +166,11 @@ function ProjectCard({ project, tall }: { project: Project; tall: boolean }) {
   const isAI = project.title.toLowerCase().includes("ai");
   let imageOpacityClasses = "";
   if (isAI) {
-    // AI card: higher opacity in both dark and light mode
-    imageOpacityClasses = "opacity-[0.6] group-hover:opacity-[0.8]";
+    // AI card: full opacity in both dark and light mode
+    imageOpacityClasses = "opacity-100 group-hover:opacity-100";
   } else {
-    // Standard cards
-    imageOpacityClasses = "opacity-[0.25] group-hover:opacity-[0.45]";
+    // Standard cards: full opacity
+    imageOpacityClasses = "opacity-100 group-hover:opacity-100";
   }
 
   return (
@@ -197,7 +197,7 @@ function ProjectCard({ project, tall }: { project: Project; tall: boolean }) {
           src={project.liveUrl}
           alt={`${project.title} preview`}
           fill
-          className={`object-cover object-top blur-md group-hover:blur-sm grayscale transition-all duration-700 ${imageOpacityClasses}`}
+          className={`object-cover object-top blur-sm group-hover:blur-none grayscale transition-all duration-700 ${imageOpacityClasses}`}
           sizes="(max-width: 768px) 100vw, 50vw"
         />
       )}

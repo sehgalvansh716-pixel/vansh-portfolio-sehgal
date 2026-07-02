@@ -15,22 +15,15 @@ export default function CustomCursor() {
     const dot = dotRef.current!;
     const label = labelRef.current!;
 
-    // GSAP quickTo for smooth inertia lag on ring
-    const xTo = gsap.quickTo(ring, "x", { duration: 0.6, ease: "power3.out" });
-    const yTo = gsap.quickTo(ring, "y", { duration: 0.6, ease: "power3.out" });
-
     let mx = 0, my = 0;
 
     const onMove = (e: MouseEvent) => {
       mx = e.clientX;
       my = e.clientY;
 
-      // Dot snaps instantly
+      // Both dot and ring snap instantly — no lag
       gsap.set(dot, { x: mx - 3, y: my - 3 });
-
-      // Ring follows with lag
-      xTo(mx - 20);
-      yTo(my - 20);
+      gsap.set(ring, { x: mx - 20, y: my - 20 });
     };
 
     const onEnterLink = (e: Event) => {

@@ -155,9 +155,9 @@ export default function About() {
                   src="/images/avatar.jpg"
                   alt="Vansh Sehgal — Business Operations & Data Analyst, Delhi"
                   fill
-                  className="object-cover transition-all duration-500 hover:grayscale-0"
-                  style={{ filter: "grayscale(15%)" }}
-                  sizes="(max-width: 768px) 100vw, 288px"
+                  className="object-cover transition-all duration-500"
+                  sizes="(max-width: 768px) 100vw, 384px"
+                  quality={100}
                   priority
                 />
                 {/* Gradient overlay */}

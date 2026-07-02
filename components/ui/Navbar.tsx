@@ -95,16 +95,15 @@ export default function Navbar() {
           </a>
 
           {/* Desktop links */}
-          <ul className="hidden md:flex items-center gap-8" role="list">
+          <ul className="hidden md:flex items-center gap-2" role="list">
             {navLinks.map((link) => (
               <li key={link.href}>
                 <a
                   href={link.href}
                   onClick={(e) => smoothScroll(e, link.href)}
-                  className="nav-link font-mono text-xs uppercase tracking-widest text-brand-white/70 hover:text-accent-primary transition-colors duration-200"
+                  className="font-mono text-xs font-semibold uppercase tracking-widest px-4 py-2 rounded-full bg-[#042f2e]/10 backdrop-blur-md border border-[#0d9488]/30 border-t-[#2dd4bf]/40 shadow-[0_4px_10px_rgba(0,0,0,0.1),inset_0_1px_3px_rgba(45,212,191,0.2),inset_0_-1px_4px_rgba(0,0,0,0.2)] text-brand-white hover:bg-[#042f2e]/20 hover:border-[#0d9488]/50 hover:shadow-[0_6px_15px_rgba(0,0,0,0.15),inset_0_1px_3px_rgba(45,212,191,0.4)] hover:text-accent-primary transition-all duration-300 inline-block"
                 >
-                  <span>{link.label}</span>
-                  <span className="nav-link-hover">{link.label}</span>
+                  {link.label}
                 </a>
               </li>
             ))}
@@ -149,13 +148,13 @@ export default function Navbar() {
         >
           <X size={22} />
         </button>
-        <ul className="flex flex-col gap-6" role="list">
+        <ul className="flex flex-col gap-3" role="list">
           {navLinks.map((link) => (
             <li key={link.href}>
               <a
                 href={link.href}
                 onClick={(e) => smoothScroll(e, link.href)}
-                className="font-display text-2xl font-bold text-brand-white hover:text-accent-primary transition-colors duration-200"
+                className="font-mono text-xs font-semibold uppercase tracking-widest px-5 py-3 rounded-full bg-[#042f2e]/10 backdrop-blur-md border border-[#0d9488]/30 border-t-[#2dd4bf]/40 shadow-[0_4px_10px_rgba(0,0,0,0.1),inset_0_1px_3px_rgba(45,212,191,0.2),inset_0_-1px_4px_rgba(0,0,0,0.2)] text-brand-white hover:bg-[#042f2e]/20 hover:border-[#0d9488]/50 hover:shadow-[0_6px_15px_rgba(0,0,0,0.15),inset_0_1px_3px_rgba(45,212,191,0.4)] hover:text-accent-primary transition-all duration-300 block text-center"
               >
                 {link.label}
               </a>

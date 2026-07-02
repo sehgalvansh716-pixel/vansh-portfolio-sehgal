@@ -15,13 +15,13 @@ export const siteConfig = {
   location: "Delhi, India",
   linkedin: "https://www.linkedin.com/in/vansh-sehgal-383834322",
   github: null as string | null,
-  bio: "Results-driven BBA professional combining technical proficiency in data analytics and automation with advanced training in high-impact customer service and flight hospitality. Holds a government-accredited (NSDC) Grade A certification in data operations alongside practical corporate data analytics simulation experience with Deloitte. Highly adaptable, with strong analytical thinking, 40 WPM typing speed, and cross-domain expertise uniquely suited for Business Operations, Executive Administration, Client Relations, or Data Analyst roles.",
+  bio: "Results-driven BBA professional combining technical proficiency in data analytics and automation with advanced training in high-impact customer service and flight hospitality. Holds a government-accredited (NSDC) Grade A certification in data operations alongside practical corporate data analytics simulation experience with Deloitte. Highly adaptable, with strong analytical thinking and cross-domain expertise uniquely suited for Business Operations, Executive Administration, Client Relations, or Data Analyst roles.",
   established: "2023",
   resumeUrl: "/Vansh_Sehgal_Resume.docx",
   stats: [
     { value: 6, suffix: "+", label: "Certifications" },
     { value: 3, suffix: "+", label: "Years Learning" },
-    { value: 40, suffix: " WPM", label: "Typing Speed" },
+    { value: 5, suffix: "+", label: "Projects Done" },
     { value: 10, suffix: "+", label: "AI Skills" },
   ],
   experience: [
