@@ -159,7 +159,6 @@ export default function About() {
                   sizes="(max-width: 768px) 100vw, 500px"
                   quality={100}
                   priority
-                  unoptimized
                 />
                 {/* Gradient overlay */}
                 <div

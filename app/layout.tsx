@@ -136,6 +136,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <noscript>
+          <style>{`
+            [style*="opacity: 0"] {
+              opacity: 1 !important;
+              visibility: visible !important;
+              transform: none !important;
+            }
+          `}</style>
+        </noscript>
       </head>
       <body id="main-content" className="bg-brand-black text-brand-white selection:bg-accent-primary/30 selection:text-brand-white min-h-[100dvh] flex flex-col font-body transition-colors duration-500">
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>

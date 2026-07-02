@@ -9,11 +9,20 @@ export default function CustomCursor() {
   const labelRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    // Completely unmount on touch devices
-    if (window.matchMedia("(pointer: coarse)").matches) {
-      setIsTouch(true);
-      return;
-    }
+    const onTouchStart = () => setIsTouch(true);
+    const onMouseMove = () => setIsTouch(false);
+
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("mousemove", onMouseMove, { passive: true });
+
+    return () => {
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("mousemove", onMouseMove);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isTouch) return;
 
     const ring = ringRef.current!;
     const dot = dotRef.current!;
@@ -68,9 +77,10 @@ export default function CustomCursor() {
       document.removeEventListener("mousemove", onMove);
       observer.disconnect();
     };
-  }, []);
+  }, [isTouch]);
 
-  if (isTouch) return null;
+  // Hide the cursor elements via CSS when touch is active
+  const cursorDisplay = isTouch ? "none" : "flex";
 
   return (
     <>
@@ -93,7 +103,7 @@ export default function CustomCursor() {
           WebkitBackdropFilter: "blur(12px) saturate(150%)",
           pointerEvents: "none",
           zIndex: 9999,
-          display: "flex",
+          display: cursorDisplay,
           alignItems: "center",
           justifyContent: "center",
           willChange: "transform",
@@ -130,6 +140,7 @@ export default function CustomCursor() {
           boxShadow: "0 0 8px rgba(16,185,129,0.6)",
           pointerEvents: "none",
           zIndex: 9999,
+          display: isTouch ? "none" : "block",
           willChange: "transform",
         }}
       />
