@@ -40,33 +40,7 @@ export default function Navbar() {
     );
   }, []);
 
-  // Drawer animation
-  useEffect(() => {
-    const drawer = document.querySelector("[data-mobile-menu]") as HTMLElement;
-    if (!drawer) return;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    
-    if (menuOpen) {
-      drawer.style.display = "flex";
-      if (!reduced) {
-        gsap.to(drawer, { x: "0%", duration: 0.4, ease: "power3.out" });
-      } else {
-        gsap.set(drawer, { x: "0%" });
-      }
-    } else {
-      if (!reduced) {
-        gsap.to(drawer, {
-          x: "100%",
-          duration: 0.35,
-          ease: "power3.in",
-          onComplete: () => { drawer.style.display = "none"; },
-        });
-      } else {
-        gsap.set(drawer, { x: "100%" });
-        drawer.style.display = "none";
-      }
-    }
-  }, [menuOpen]);
+
 
   const smoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
@@ -144,8 +118,9 @@ export default function Navbar() {
       <div
         data-mobile-menu
         aria-label="Mobile navigation"
-        style={{ display: "none", transform: "translateX(100%)" }}
-        className="fixed inset-y-0 right-0 w-full max-w-xs bg-surface border-l border-white/10 z-[60] flex-col p-8 pt-24"
+        className={`fixed inset-y-0 right-0 w-full max-w-xs bg-surface border-l border-white/10 z-[60] flex flex-col p-8 pt-24 transition-transform duration-400 ease-in-out ${
+          menuOpen ? "translate-x-0" : "translate-x-full"
+        }`}
       >
         <button
           className="absolute top-6 right-6 text-brand-white"
