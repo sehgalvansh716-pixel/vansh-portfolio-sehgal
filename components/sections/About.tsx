@@ -156,9 +156,10 @@ export default function About() {
                   alt="Vansh Sehgal — Business Operations & Data Analyst, Delhi"
                   fill
                   className="object-cover transition-all duration-500"
-                  sizes="(max-width: 768px) 100vw, 384px"
+                  sizes="(max-width: 768px) 100vw, 500px"
                   quality={100}
                   priority
+                  unoptimized
                 />
                 {/* Gradient overlay */}
                 <div
