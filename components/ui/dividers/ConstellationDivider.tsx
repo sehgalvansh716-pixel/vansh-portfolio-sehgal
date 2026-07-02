@@ -76,7 +76,7 @@ export default function ConstellationDivider() {
       >
         <defs>
           <radialGradient id="nebulaGrad" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#4f46e5" stopOpacity="0.4" />
+            <stop offset="0%" stopColor="rgb(var(--btn-indigo-border))" stopOpacity="0.4" />
             <stop offset="50%" stopColor="#10b981" stopOpacity="0.1" />
             <stop offset="100%" stopColor="#020617" stopOpacity="0" />
           </radialGradient>

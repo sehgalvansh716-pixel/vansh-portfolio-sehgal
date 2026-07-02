@@ -17,6 +17,15 @@
   --font-body: var(--font-inter);
   --video-invert: invert(0);
   --hero-bg-solid: #080A09;
+
+  /* Button Colors (Dark Mode) */
+  --btn-indigo-bg: 49 46 129;
+  --btn-indigo-border: 79 70 229;
+  --btn-indigo-top: 129 140 248;
+
+  --btn-teal-bg: 4 47 46;
+  --btn-teal-border: 13 148 136;
+  --btn-teal-top: 45 212 191;
 }
 
 .hero-video-dark { display: block; }
@@ -34,6 +43,15 @@
 
   --video-invert: invert(0) opacity(1);
   --hero-bg-solid: #F8FAFC;
+
+  /* Button Colors (Light Mode) */
+  --btn-indigo-bg: 99 102 241;
+  --btn-indigo-border: 79 70 229;
+  --btn-indigo-top: 67 56 202;
+
+  --btn-teal-bg: 20 184 166;
+  --btn-teal-border: 13 148 136;
+  --btn-teal-top: 15 118 110;
 }
 
 .light .hero-video-dark { display: none; }

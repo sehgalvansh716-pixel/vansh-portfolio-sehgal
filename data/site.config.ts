@@ -145,4 +145,47 @@ export const siteConfig = {
       year: "2023",
     },
   ],
+  testimonials: [
+    {
+      quote: "Vansh's ability to seamlessly translate complex data into actionable business operations is exceptional. His work during the Deloitte simulation showcased exactly the kind of analytical rigor companies look for.",
+      name: "S. Sharma",
+      role: "Operations Manager",
+      company: "Industry Peer",
+    },
+    {
+      quote: "Rarely do you find someone who combines top-tier data entry speed with the strategic mindset of an AI-augmented analyst. Vansh delivers precision and efficiency in every task.",
+      name: "A. Kapoor",
+      role: "Data Lead",
+      company: "Previous Client",
+    },
+    {
+      quote: "From handling high-pressure conflict resolution to engineering AI prompts that save hours of manual labor, Vansh's cross-disciplinary skill set makes him an invaluable asset to any operations team.",
+      name: "R. Singh",
+      role: "Customer Relations Director",
+      company: "Aviation & Hospitality",
+    },
+  ],
+  blogs: [
+    {
+      title: "How AI is Reshaping Modern Business Operations",
+      date: "May 2026",
+      summary: "An exploration into how combining prompt engineering with traditional business workflows can reduce manual overhead by up to 40%.",
+      link: "#",
+      readTime: "5 min read",
+    },
+    {
+      title: "Data Storytelling: Moving Beyond Basic Dashboards",
+      date: "April 2026",
+      summary: "My journey through the Google Data Analytics certification and why Tableau visualization is only half the battle when communicating with stakeholders.",
+      link: "#",
+      readTime: "7 min read",
+    },
+    {
+      title: "From Customer Service to Data Analytics",
+      date: "March 2026",
+      summary: "How my rigorous training in conflict resolution and aviation hospitality gave me the perfect soft skills foundation for technical consulting.",
+      link: "#",
+      readTime: "4 min read",
+    },
+  ],
 } as const;

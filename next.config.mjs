@@ -7,6 +7,7 @@ const nextConfig = {
     config.externals = config.externals || [];
     return config;
   },
+  turbopack: {},
   images: {
     formats: ["image/avif", "image/webp"],
   },

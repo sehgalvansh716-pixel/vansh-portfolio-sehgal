@@ -17,6 +17,16 @@ const config: Config = {
         "accent-dim": "var(--accent-dim)",
         "muted": "var(--muted)",
         "surface": "var(--surface)",
+        "btn-indigo": {
+          bg: "rgb(var(--btn-indigo-bg) / <alpha-value>)",
+          border: "rgb(var(--btn-indigo-border) / <alpha-value>)",
+          top: "rgb(var(--btn-indigo-top) / <alpha-value>)",
+        },
+        "btn-teal": {
+          bg: "rgb(var(--btn-teal-bg) / <alpha-value>)",
+          border: "rgb(var(--btn-teal-border) / <alpha-value>)",
+          top: "rgb(var(--btn-teal-top) / <alpha-value>)",
+        },
       },
       fontFamily: {
         display: ["var(--font-syne)", "sans-serif"],

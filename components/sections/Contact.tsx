@@ -1,10 +1,8 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { siteConfig } from "@/data/site.config";
 import { Mail, Phone, Linkedin, Send } from "lucide-react";
 import MagneticButton from "@/components/ui/MagneticButton";
-
-const FORMSPREE_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID"; // replace after signup
 
 export default function Contact() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
@@ -12,24 +10,38 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setStatus("sending");
     const form = formRef.current!;
-    const data = new FormData(form);
-    try {
-      const res = await fetch(FORMSPREE_ENDPOINT, {
-        method: "POST",
-        body: data,
-        headers: { Accept: "application/json" },
-      });
-      if (res.ok) {
-        setStatus("sent");
-        form.reset();
-      } else {
-        setStatus("error");
-      }
-    } catch {
-      setStatus("error");
+    
+    // Basic frontend validation check
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
     }
+
+    setStatus("sending");
+    const data = new FormData(form);
+    
+    const name = data.get("name") as string;
+    const email = data.get("email") as string;
+    const subject = data.get("subject") as string || `Portfolio Contact from ${name}`;
+    const message = data.get("message") as string;
+
+    const mailtoSubject = encodeURIComponent(subject);
+    const mailtoBody = encodeURIComponent(
+      `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
+    );
+
+    const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${siteConfig.email}&su=${mailtoSubject}&body=${mailtoBody}`;
+
+    // Add a tiny delay for UX so the button changes state before redirect
+    setTimeout(() => {
+      window.open(gmailLink, "_blank");
+      setStatus("sent");
+      form.reset();
+      
+      // Reset button state after a few seconds
+      setTimeout(() => setStatus("idle"), 3000);
+    }, 500);
   };
 
   return (
@@ -121,7 +133,7 @@ export default function Contact() {
                 required
                 rows={5}
                 placeholder="Tell me about the opportunity..."
-                className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-5 py-4 text-brand-white font-body text-sm placeholder:text-brand-white/20 focus:outline-none focus:border-accent-primary/50 transition-all duration-300 resize-none"
+                className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-5 py-4 text-brand-white font-body text-sm placeholder:text-brand-white/20 focus:outline-none focus:border-accent-primary/50 transition-colors duration-300 resize-none"
               />
             </div>
 
@@ -129,12 +141,12 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={status === "sending" || status === "sent"}
-                className="w-full flex items-center justify-center gap-3 px-8 py-4 rounded-full font-mono text-sm font-semibold uppercase tracking-widest bg-[#312e81]/15 backdrop-blur-md border border-[#4f46e5]/30 border-t-[#818cf8]/40 shadow-[0_4px_10px_rgba(0,0,0,0.1),inset_0_1px_3px_rgba(129,140,248,0.25),inset_0_-1px_4px_rgba(0,0,0,0.2)] text-brand-white hover:bg-[#312e81]/30 hover:border-[#4f46e5]/50 hover:shadow-[0_6px_15px_rgba(0,0,0,0.15),inset_0_1px_3px_rgba(129,140,248,0.45)] transition-all duration-300 disabled:opacity-50"
+                className="w-full flex items-center justify-center gap-3 px-8 py-4 rounded-full font-mono text-sm font-semibold uppercase tracking-widest bg-btn-indigo-bg/15 backdrop-blur-md border border-btn-indigo-border/30 border-t-btn-indigo-top/40 shadow-[0_4px_10px_rgba(0,0,0,0.1),inset_0_1px_3px_rgb(var(--btn-indigo-top)/0.25),inset_0_-1px_4px_rgba(0,0,0,0.2)] text-brand-white hover:bg-btn-indigo-bg/30 hover:border-btn-indigo-border/50 hover:shadow-[0_6px_15px_rgba(0,0,0,0.15),inset_0_1px_3px_rgb(var(--btn-indigo-top)/0.45)] transition-all duration-300 disabled:opacity-50"
               >
                 <Send size={16} aria-hidden="true" />
                 {status === "idle" && "Send Message"}
                 {status === "sending" && "Sending..."}
-                {status === "sent" && "Message Sent ✓"}
+                {status === "sent" && "Redirecting... ✓"}
                 {status === "error" && "Try Again"}
               </button>
             </MagneticButton>
@@ -166,7 +178,7 @@ function FormField({
         name={name}
         type={type}
         required={required}
-        className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-5 py-4 text-brand-white font-body text-sm placeholder:text-brand-white/20 focus:outline-none focus:border-accent-primary/50 transition-all duration-300"
+        className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-5 py-4 text-brand-white font-body text-sm placeholder:text-brand-white/20 focus:outline-none focus:border-accent-primary/50 transition-colors duration-300"
         placeholder={`Your ${label.toLowerCase()}...`}
       />
     </div>

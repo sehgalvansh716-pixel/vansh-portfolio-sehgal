@@ -2,11 +2,8 @@ import type { Metadata } from "next";
 import { Syne, JetBrains_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/data/site.config";
-import dynamic from "next/dynamic";
 import { ThemeProvider } from "@/components/ThemeProvider";
-
-const CustomCursor = dynamic(() => import("@/components/ui/CustomCursor"), { ssr: false });
-const SmoothScroller = dynamic(() => import("@/components/ui/SmoothScroller"), { ssr: false });
+import { ClientOnlyWrappers } from "@/components/ClientOnlyWrappers";
 
 // ─── Google Fonts via next/font (zero layout shift) ──────────
 const syne = Syne({
@@ -146,7 +143,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           `}</style>
         </noscript>
       </head>
-      <body id="main-content" className="bg-brand-black text-brand-white selection:bg-accent-primary/30 selection:text-brand-white min-h-[100dvh] flex flex-col font-body transition-colors duration-500">
+      <body suppressHydrationWarning id="main-content" className="bg-brand-black text-brand-white selection:bg-accent-primary/30 selection:text-brand-white min-h-[100dvh] flex flex-col font-body transition-colors duration-500">
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           {/* Skip link for keyboard users */}
           <a href="#main-content" className="skip-link">
@@ -154,8 +151,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </a>
 
         {/* Client-only: custom cursor + smooth scroller */}
-        <CustomCursor />
-        <SmoothScroller />
+        <ClientOnlyWrappers />
 
         {children}
         </ThemeProvider>

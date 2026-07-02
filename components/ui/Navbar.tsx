@@ -82,6 +82,7 @@ export default function Navbar() {
         ].join(" ")}
       >
         <nav
+          suppressHydrationWarning
           aria-label="Main navigation"
           className="max-w-7xl mx-auto px-6 flex items-center justify-between"
         >
@@ -96,13 +97,13 @@ export default function Navbar() {
           </a>
 
           {/* Desktop links */}
-          <ul className="hidden md:flex items-center gap-2" role="list">
+          <ul suppressHydrationWarning className="hidden md:flex items-center gap-2" role="list">
             {navLinks.map((link) => (
               <li key={link.href}>
                 <a
                   href={link.href}
                   onClick={(e) => smoothScroll(e, link.href)}
-                  className="font-mono text-xs font-semibold uppercase tracking-widest px-4 py-2 rounded-full bg-[#042f2e]/10 backdrop-blur-md border border-[#0d9488]/30 border-t-[#2dd4bf]/40 shadow-[0_4px_10px_rgba(0,0,0,0.1),inset_0_1px_3px_rgba(45,212,191,0.2),inset_0_-1px_4px_rgba(0,0,0,0.2)] text-brand-white hover:bg-[#042f2e]/20 hover:border-[#0d9488]/50 hover:shadow-[0_6px_15px_rgba(0,0,0,0.15),inset_0_1px_3px_rgba(45,212,191,0.4)] hover:text-accent-primary transition-all duration-300 inline-block"
+                  className="font-mono text-xs font-semibold uppercase tracking-widest px-4 py-2 rounded-full bg-btn-teal-bg/10 backdrop-blur-md border border-btn-teal-border/30 border-t-btn-teal-top/40 shadow-[0_4px_10px_rgba(0,0,0,0.1),inset_0_1px_3px_rgb(var(--btn-teal-top)/0.2),inset_0_-1px_4px_rgba(0,0,0,0.2)] text-brand-white hover:bg-btn-teal-bg/20 hover:border-btn-teal-border/50 hover:shadow-[0_6px_15px_rgba(0,0,0,0.15),inset_0_1px_3px_rgb(var(--btn-teal-top)/0.4)] hover:text-accent-primary transition-all duration-300 inline-block"
                 >
                   {link.label}
                 </a>
@@ -115,9 +116,18 @@ export default function Navbar() {
             <ThemeToggle />
             <MagneticButton className="hidden md:block">
               <a
+                href="#contact"
+                onClick={(e) => smoothScroll(e, "#contact")}
+                className="font-mono text-xs font-semibold uppercase tracking-widest px-5 py-2.5 rounded-full bg-btn-indigo-bg/15 backdrop-blur-md border border-btn-indigo-border/30 border-t-btn-indigo-top/40 shadow-[0_4px_10px_rgba(0,0,0,0.1),inset_0_1px_3px_rgb(var(--btn-indigo-top)/0.2),inset_0_-1px_4px_rgba(0,0,0,0.2)] text-brand-white hover:bg-btn-indigo-bg/25 hover:border-btn-indigo-border/50 hover:shadow-[0_6px_15px_rgba(0,0,0,0.15),inset_0_1px_3px_rgb(var(--btn-indigo-top)/0.4)] transition-all duration-300"
+              >
+                Hire Me
+              </a>
+            </MagneticButton>
+            <MagneticButton className="hidden md:block">
+              <a
                 href={siteConfig.resumeUrl}
                 download
-                className="font-mono text-xs font-semibold uppercase tracking-widest px-5 py-2.5 rounded-full bg-[#042f2e]/10 backdrop-blur-md border border-[#0d9488]/30 border-t-[#2dd4bf]/40 shadow-[0_4px_10px_rgba(0,0,0,0.1),inset_0_1px_3px_rgba(45,212,191,0.2),inset_0_-1px_4px_rgba(0,0,0,0.2)] text-brand-white hover:bg-[#042f2e]/20 hover:border-[#0d9488]/50 hover:shadow-[0_6px_15px_rgba(0,0,0,0.15),inset_0_1px_3px_rgba(45,212,191,0.4)] transition-all duration-300"
+                className="font-mono text-xs font-semibold uppercase tracking-widest px-5 py-2.5 rounded-full bg-btn-teal-bg/10 backdrop-blur-md border border-btn-teal-border/30 border-t-btn-teal-top/40 shadow-[0_4px_10px_rgba(0,0,0,0.1),inset_0_1px_3px_rgb(var(--btn-teal-top)/0.2),inset_0_-1px_4px_rgba(0,0,0,0.2)] text-brand-white hover:bg-btn-teal-bg/20 hover:border-btn-teal-border/50 hover:shadow-[0_6px_15px_rgba(0,0,0,0.15),inset_0_1px_3px_rgb(var(--btn-teal-top)/0.4)] transition-all duration-300"
               >
                 Resume
               </a>
@@ -150,23 +160,30 @@ export default function Navbar() {
         >
           <X size={22} />
         </button>
-        <ul className="flex flex-col gap-3" role="list">
+        <ul suppressHydrationWarning className="flex flex-col gap-3" role="list">
           {navLinks.map((link) => (
             <li key={link.href}>
               <a
                 href={link.href}
                 onClick={(e) => smoothScroll(e, link.href)}
-                className="font-mono text-xs font-semibold uppercase tracking-widest px-5 py-3 rounded-full bg-[#042f2e]/10 backdrop-blur-md border border-[#0d9488]/30 border-t-[#2dd4bf]/40 shadow-[0_4px_10px_rgba(0,0,0,0.1),inset_0_1px_3px_rgba(45,212,191,0.2),inset_0_-1px_4px_rgba(0,0,0,0.2)] text-brand-white hover:bg-[#042f2e]/20 hover:border-[#0d9488]/50 hover:shadow-[0_6px_15px_rgba(0,0,0,0.15),inset_0_1px_3px_rgba(45,212,191,0.4)] hover:text-accent-primary transition-all duration-300 block text-center"
+                className="font-mono text-xs font-semibold uppercase tracking-widest px-5 py-3 rounded-full bg-btn-teal-bg/10 backdrop-blur-md border border-btn-teal-border/30 border-t-btn-teal-top/40 shadow-[0_4px_10px_rgba(0,0,0,0.1),inset_0_1px_3px_rgb(var(--btn-teal-top)/0.2),inset_0_-1px_4px_rgba(0,0,0,0.2)] text-brand-white hover:bg-btn-teal-bg/20 hover:border-btn-teal-border/50 hover:shadow-[0_6px_15px_rgba(0,0,0,0.15),inset_0_1px_3px_rgb(var(--btn-teal-top)/0.4)] hover:text-accent-primary transition-all duration-300 block text-center"
               >
                 {link.label}
               </a>
             </li>
           ))}
-          <li className="mt-4">
+          <li className="mt-4 flex flex-col gap-3">
+            <a
+              href="#contact"
+              onClick={(e) => smoothScroll(e, "#contact")}
+              className="font-mono text-xs uppercase tracking-widest px-5 py-3 rounded-full bg-btn-indigo-bg/15 border border-btn-indigo-border/30 text-brand-white hover:bg-btn-indigo-bg/30 hover:border-btn-indigo-border/50 transition-all duration-300 block text-center"
+            >
+              Hire Me
+            </a>
             <a
               href={siteConfig.resumeUrl}
               download
-              className="font-mono text-xs uppercase tracking-widest px-5 py-3 rounded-full border border-accent-primary/40 text-accent-primary hover:bg-accent-primary hover:text-brand-black transition-all duration-300 inline-block"
+              className="font-mono text-xs uppercase tracking-widest px-5 py-3 rounded-full border border-accent-primary/40 text-accent-primary hover:bg-accent-primary hover:text-brand-black transition-all duration-300 block text-center"
             >
               Download Resume
             </a>

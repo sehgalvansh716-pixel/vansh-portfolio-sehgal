@@ -6,6 +6,7 @@ import { SplitText } from "@/lib/gsap";
 import MagneticButton from "@/components/ui/MagneticButton";
 import { siteConfig } from "@/data/site.config";
 import { ChevronDown } from "lucide-react";
+import HeroCanvasLoader from "@/components/ui/HeroCanvasLoader";
 
 const HeroCanvas = dynamic(() => import("@/components/three/HeroCanvas"), { ssr: false });
 
@@ -153,7 +154,7 @@ export default function Hero() {
       />
 
       {/* R3F Particle overlay */}
-      <Suspense fallback={null}>
+      <Suspense fallback={<HeroCanvasLoader />}>
         <HeroCanvas distortionRef={distortionRef} />
       </Suspense>
 
@@ -212,7 +213,7 @@ export default function Hero() {
               href={siteConfig.resumeUrl}
               download
               id="hero-download-resume"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-mono text-sm font-semibold uppercase tracking-widest bg-[#312e81]/15 backdrop-blur-md border border-[#4f46e5]/30 border-t-[#818cf8]/40 shadow-[0_4px_10px_rgba(0,0,0,0.1),inset_0_1px_3px_rgba(129,140,248,0.25),inset_0_-1px_4px_rgba(0,0,0,0.2)] text-brand-white hover:bg-[#312e81]/30 hover:border-[#4f46e5]/50 hover:shadow-[0_6px_15px_rgba(0,0,0,0.15),inset_0_1px_3px_rgba(129,140,248,0.45)] transition-all duration-300 hover:scale-105"
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-mono text-sm font-semibold uppercase tracking-widest bg-btn-indigo-bg/15 backdrop-blur-md border border-btn-indigo-border/30 border-t-btn-indigo-top/40 shadow-[0_4px_10px_rgba(0,0,0,0.1),inset_0_1px_3px_rgb(var(--btn-indigo-top)/0.25),inset_0_-1px_4px_rgba(0,0,0,0.2)] text-brand-white hover:bg-btn-indigo-bg/30 hover:border-btn-indigo-border/50 hover:shadow-[0_6px_15px_rgba(0,0,0,0.15),inset_0_1px_3px_rgb(var(--btn-indigo-top)/0.45)] transition-all duration-300 hover:scale-105"
             >
               Download Resume
             </a>
@@ -225,7 +226,7 @@ export default function Hero() {
                 e.preventDefault();
                 document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
               }}
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-mono text-sm uppercase tracking-widest bg-[#312e81]/5 backdrop-blur-md border border-[#4f46e5]/20 border-t-[#818cf8]/30 shadow-[0_4px_10px_rgba(0,0,0,0.05),inset_0_1px_2px_rgba(129,140,248,0.15),inset_0_-1px_4px_rgba(0,0,0,0.1)] text-brand-white/90 hover:bg-[#312e81]/15 hover:border-[#4f46e5]/40 hover:text-brand-white hover:shadow-[0_6px_15px_rgba(0,0,0,0.1),inset_0_1px_2px_rgba(129,140,248,0.3)] transition-all duration-300"
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-mono text-sm uppercase tracking-widest bg-btn-indigo-bg/5 backdrop-blur-md border border-btn-indigo-border/20 border-t-btn-indigo-top/30 shadow-[0_4px_10px_rgba(0,0,0,0.05),inset_0_1px_2px_rgb(var(--btn-indigo-top)/0.15),inset_0_-1px_4px_rgba(0,0,0,0.1)] text-brand-white/90 hover:bg-btn-indigo-bg/15 hover:border-btn-indigo-border/40 hover:text-brand-white hover:shadow-[0_6px_15px_rgba(0,0,0,0.1),inset_0_1px_2px_rgb(var(--btn-indigo-top)/0.3)] transition-all duration-300"
             >
               Let&apos;s Connect
             </a>
