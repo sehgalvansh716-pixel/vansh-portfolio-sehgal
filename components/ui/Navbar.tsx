@@ -40,6 +40,27 @@ export default function Navbar() {
     );
   }, []);
 
+  // Body scroll lock and focus trap for mobile menu
+  useEffect(() => {
+    const mainContent = document.querySelector("main");
+    const footer = document.querySelector("footer");
+
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+      if (mainContent) mainContent.setAttribute("inert", "true");
+      if (footer) footer.setAttribute("inert", "true");
+    } else {
+      document.body.style.overflow = "";
+      if (mainContent) mainContent.removeAttribute("inert");
+      if (footer) footer.removeAttribute("inert");
+    }
+    return () => {
+      document.body.style.overflow = "";
+      if (mainContent) mainContent.removeAttribute("inert");
+      if (footer) footer.removeAttribute("inert");
+    };
+  }, [menuOpen]);
+
 
 
   const smoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {

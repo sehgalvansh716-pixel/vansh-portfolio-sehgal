@@ -9,7 +9,7 @@
   --accent-primary: #10B981;
   --accent-secondary: #34D399;
   --accent-dim: #059669;
-  --muted: #6B7280;
+  --muted: #9CA3AF; /* gray-400 for better contrast on dark bg */
   --surface: #0F1510;
   --glass-border: rgba(16, 185, 129, 0.12);
   --font-display: var(--font-syne);
@@ -28,7 +28,7 @@
   --accent-primary: #059669;
   --accent-secondary: #10B981;
   --accent-dim: #D1FAE5;
-  --muted: #475569;
+  --muted: #334155; /* slate-700 for better contrast on light bg */
   --surface: #F1F5F9;
   --glass-border: rgba(5, 150, 105, 0.2);
 
