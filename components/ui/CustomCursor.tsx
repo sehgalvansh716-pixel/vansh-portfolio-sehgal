@@ -1,15 +1,19 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "@/lib/gsap";
 
 export default function CustomCursor() {
+  const [isTouch, setIsTouch] = useState(false);
   const ringRef = useRef<HTMLDivElement>(null);
   const dotRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    // Hide on touch devices
-    if (window.matchMedia("(pointer: coarse)").matches) return;
+    // Completely unmount on touch devices
+    if (window.matchMedia("(pointer: coarse)").matches) {
+      setIsTouch(true);
+      return;
+    }
 
     const ring = ringRef.current!;
     const dot = dotRef.current!;
@@ -65,6 +69,8 @@ export default function CustomCursor() {
       observer.disconnect();
     };
   }, []);
+
+  if (isTouch) return null;
 
   return (
     <>
