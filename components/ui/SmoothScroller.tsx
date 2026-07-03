@@ -7,10 +7,14 @@ export default function SmoothScroller() {
   const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
+    // Disable smooth scrolling on mobile to prevent extreme lag and preserve native momentum
+    if (window.innerWidth < 768) return;
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
+      touchMultiplier: 0, // Prevent lenis from touching touch events at all
     });
 
     lenisRef.current = lenis;

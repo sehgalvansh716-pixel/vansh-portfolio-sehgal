@@ -318,3 +318,21 @@ body {
     cursor: auto;
   }
 }
+
+/* ─── Mobile GPU Optimizations ─────────────────────────────────── */
+@media (max-width: 768px) {
+  .glass {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  .btn-liquid {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: none;
+  }
+  /* Soften blur on all generic backdrop-blur utilities from Tailwind to save GPU */
+  .backdrop-blur-md, .backdrop-blur-xl {
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+  }
+}
