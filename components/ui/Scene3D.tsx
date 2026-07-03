@@ -25,7 +25,7 @@ export default function Scene3D({ onLoad }: Scene3DProps) {
   // Use the new light theme URL for light mode, and the old one for dark mode
   const splineUrl = resolvedTheme === "light"
     ? "https://prod.spline.design/AIxCbBhMOcGcGWfi/scene.splinecode?v=1"
-    : "https://prod.spline.design/dkOIG6QkkWhpsDWl/scene.splinecode?v=2";
+    : "https://prod.spline.design/dkOIG6QkkWhpsDWl/scene.splinecode";
 
   return (
     <div className="absolute inset-0 z-0 pointer-events-auto opacity-90 overflow-hidden flex items-center justify-center">
