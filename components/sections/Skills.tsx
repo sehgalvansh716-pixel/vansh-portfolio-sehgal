@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import Spline from "@splinetool/react-spline";
 import { gsap } from "@/lib/gsap";
 import { SplitText } from "@/lib/gsap";
@@ -21,16 +21,6 @@ export default function Skills() {
   const pillsRef = useRef<HTMLDivElement>(null);
   const cardsContainerRef = useRef<HTMLDivElement>(null);
   const progressBars = useRef<(HTMLDivElement | null)[]>([]);
-  const [isMobile, setIsMobile] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -154,9 +144,7 @@ export default function Skills() {
         <div className="relative pt-12 pb-12 mt-12 min-h-[800px]">
           {/* Spline Background */}
           <div className="absolute inset-0 z-0 pointer-events-none opacity-100 lg:px-24" style={{ maskImage: "radial-gradient(ellipse at center, black 50%, transparent 80%)" }}>
-            {mounted && !isMobile && (
-              <Spline scene="https://prod.spline.design/KAkn-w7hlauc9CcD/scene.splinecode" />
-            )}
+            <Spline scene="https://prod.spline.design/KAkn-w7hlauc9CcD/scene.splinecode" />
           </div>
 
           <div className="relative z-10 mb-10">
