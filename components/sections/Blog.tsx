@@ -82,8 +82,36 @@ export default function Blog() {
               href={blog.link}
               ref={(el) => { cardsRef.current[i] = el; }}
               className="group flex flex-col p-6 rounded-2xl bg-white/[0.02] border border-white/10 hover:border-accent-primary/40 hover:bg-white/[0.04] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(16,185,129,0.05)]"
+              onMouseMove={(e) => {
+                if (!cardsRef.current[i]) return;
+                const card = cardsRef.current[i]!;
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = ((y - centerY) / centerY) * -10;
+                const rotateY = ((x - centerX) / centerX) * 10;
+                
+                gsap.to(card, {
+                  rotateX,
+                  rotateY,
+                  transformPerspective: 1000,
+                  ease: "power2.out",
+                  duration: 0.4,
+                });
+              }}
+              onMouseLeave={() => {
+                if (!cardsRef.current[i]) return;
+                gsap.to(cardsRef.current[i], {
+                  rotateX: 0,
+                  rotateY: 0,
+                  ease: "power3.out",
+                  duration: 0.7,
+                });
+              }}
             >
-              <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center justify-between mb-6 pointer-events-none">
                 <span className="font-mono text-[10px] uppercase tracking-widest text-accent-primary/80">
                   {blog.date}
                 </span>

@@ -63,9 +63,37 @@ export default function Testimonials() {
               key={i}
               ref={(el) => { cardsRef.current[i] = el; }}
               className="relative p-8 rounded-2xl bg-white/[0.02] border border-white/10 hover:border-accent-primary/30 transition-all duration-300 flex flex-col justify-between hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(16,185,129,0.05)]"
+              onMouseMove={(e) => {
+                if (!cardsRef.current[i]) return;
+                const card = cardsRef.current[i]!;
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = ((y - centerY) / centerY) * -10;
+                const rotateY = ((x - centerX) / centerX) * 10;
+                
+                gsap.to(card, {
+                  rotateX,
+                  rotateY,
+                  transformPerspective: 1000,
+                  ease: "power2.out",
+                  duration: 0.4,
+                });
+              }}
+              onMouseLeave={() => {
+                if (!cardsRef.current[i]) return;
+                gsap.to(cardsRef.current[i], {
+                  rotateX: 0,
+                  rotateY: 0,
+                  ease: "power3.out",
+                  duration: 0.7,
+                });
+              }}
             >
-              <Quote size={28} className="text-accent-primary/30 mb-6" aria-hidden="true" />
-              <p className="font-body text-brand-white/80 text-sm leading-relaxed mb-8 flex-1">
+              <Quote size={28} className="text-accent-primary/30 mb-6 pointer-events-none" aria-hidden="true" />
+              <p className="font-body text-brand-white/80 text-sm leading-relaxed mb-8 flex-1 pointer-events-none">
                 "{test.quote}"
               </p>
               

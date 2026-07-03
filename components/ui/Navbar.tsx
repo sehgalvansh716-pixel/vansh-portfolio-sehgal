@@ -32,12 +32,22 @@ export default function Navbar() {
       header.style.opacity = "1";
       return;
     }
-    // Use fromTo so header is never permanently stuck invisible
-    gsap.fromTo(
+    const tl = gsap.timeline();
+    tl.fromTo(
       header,
       { y: -24, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.7, ease: "power3.out", delay: 0.15 }
     );
+
+    const links = header.querySelectorAll("li");
+    if (links.length) {
+      tl.fromTo(
+        links,
+        { y: -10, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.4, stagger: 0.05, ease: "power2.out" },
+        "-=0.4"
+      );
+    }
   }, []);
 
   // Body scroll lock and focus trap for mobile menu
@@ -61,6 +71,17 @@ export default function Navbar() {
     };
   }, [menuOpen]);
 
+  // Mobile menu stagger animation
+  useEffect(() => {
+    if (menuOpen) {
+      gsap.fromTo(
+        "[data-mobile-link]",
+        { x: 40, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.5, stagger: 0.08, ease: "back.out(1.5)", delay: 0.2 }
+      );
+    }
+  }, [menuOpen]);
+
 
 
   const smoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -77,7 +98,7 @@ export default function Navbar() {
         className={[
           "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
           scrolled
-            ? "py-3 bg-brand-black/80 backdrop-blur-xl"
+            ? "py-3 bg-brand-black/50 backdrop-blur-md border-b border-white/10 shadow-sm"
             : "py-6 bg-transparent",
         ].join(" ")}
       >
@@ -103,7 +124,7 @@ export default function Navbar() {
                 <a
                   href={link.href}
                   onClick={(e) => smoothScroll(e, link.href)}
-                  className="font-mono text-xs font-semibold uppercase tracking-widest px-4 py-2 rounded-full bg-btn-teal-bg/10 backdrop-blur-md border border-btn-teal-border/30 border-t-btn-teal-top/40 shadow-[0_4px_10px_rgba(0,0,0,0.1),inset_0_1px_3px_rgb(var(--btn-teal-top)/0.2),inset_0_-1px_4px_rgba(0,0,0,0.2)] text-brand-white hover:bg-btn-teal-bg/20 hover:border-btn-teal-border/50 hover:shadow-[0_6px_15px_rgba(0,0,0,0.15),inset_0_1px_3px_rgb(var(--btn-teal-top)/0.4)] hover:text-accent-primary transition-all duration-300 inline-block"
+                  className="font-mono text-xs font-semibold uppercase tracking-widest px-4 py-2 rounded-full glass hover:bg-white/10 text-brand-white hover:text-accent-primary transition-all duration-300 inline-block"
                 >
                   {link.label}
                 </a>
@@ -118,7 +139,7 @@ export default function Navbar() {
               <a
                 href="#contact"
                 onClick={(e) => smoothScroll(e, "#contact")}
-                className="font-mono text-xs font-semibold uppercase tracking-widest px-5 py-2.5 rounded-full bg-btn-indigo-bg/15 backdrop-blur-md border border-btn-indigo-border/30 border-t-btn-indigo-top/40 shadow-[0_4px_10px_rgba(0,0,0,0.1),inset_0_1px_3px_rgb(var(--btn-indigo-top)/0.2),inset_0_-1px_4px_rgba(0,0,0,0.2)] text-brand-white hover:bg-btn-indigo-bg/25 hover:border-btn-indigo-border/50 hover:shadow-[0_6px_15px_rgba(0,0,0,0.15),inset_0_1px_3px_rgb(var(--btn-indigo-top)/0.4)] transition-all duration-300"
+                className="font-mono text-xs font-semibold uppercase tracking-widest px-5 py-2.5 rounded-full bg-btn-indigo-bg/10 backdrop-blur-md border border-btn-indigo-border/30 border-t-btn-indigo-top/40 shadow-[0_4px_10px_rgba(0,0,0,0.1),inset_0_1px_3px_rgb(var(--btn-indigo-top)/0.2),inset_0_-1px_4px_rgba(0,0,0,0.2)] text-brand-white hover:bg-btn-indigo-bg/20 hover:border-btn-indigo-border/50 hover:shadow-[0_6px_15px_rgba(0,0,0,0.15),inset_0_1px_3px_rgb(var(--btn-indigo-top)/0.4)] transition-all duration-300"
               >
                 Hire Me
               </a>
@@ -149,7 +170,7 @@ export default function Navbar() {
       <div
         data-mobile-menu
         aria-label="Mobile navigation"
-        className={`fixed inset-y-0 right-0 w-full max-w-xs bg-surface border-l border-white/10 z-[60] flex flex-col p-8 pt-24 transition-transform duration-400 ease-in-out ${
+        className={`fixed inset-y-0 right-0 w-full max-w-xs bg-brand-black/90 backdrop-blur-xl border-l border-white/10 z-[60] flex flex-col p-8 pt-24 transition-transform duration-400 ease-in-out ${
           menuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -162,28 +183,28 @@ export default function Navbar() {
         </button>
         <ul suppressHydrationWarning className="flex flex-col gap-3" role="list">
           {navLinks.map((link) => (
-            <li key={link.href}>
+            <li key={link.href} data-mobile-link>
               <a
                 href={link.href}
                 onClick={(e) => smoothScroll(e, link.href)}
-                className="font-mono text-xs font-semibold uppercase tracking-widest px-5 py-3 rounded-full bg-btn-teal-bg/10 backdrop-blur-md border border-btn-teal-border/30 border-t-btn-teal-top/40 shadow-[0_4px_10px_rgba(0,0,0,0.1),inset_0_1px_3px_rgb(var(--btn-teal-top)/0.2),inset_0_-1px_4px_rgba(0,0,0,0.2)] text-brand-white hover:bg-btn-teal-bg/20 hover:border-btn-teal-border/50 hover:shadow-[0_6px_15px_rgba(0,0,0,0.15),inset_0_1px_3px_rgb(var(--btn-teal-top)/0.4)] hover:text-accent-primary transition-all duration-300 block text-center"
+                className="font-mono text-xs font-semibold uppercase tracking-widest px-5 py-3 rounded-full glass hover:bg-white/10 text-brand-white hover:text-accent-primary transition-all duration-300 block text-center"
               >
                 {link.label}
               </a>
             </li>
           ))}
-          <li className="mt-4 flex flex-col gap-3">
+          <li className="mt-4 flex flex-col gap-3" data-mobile-link>
             <a
               href="#contact"
               onClick={(e) => smoothScroll(e, "#contact")}
-              className="font-mono text-xs uppercase tracking-widest px-5 py-3 rounded-full bg-btn-indigo-bg/15 border border-btn-indigo-border/30 text-brand-white hover:bg-btn-indigo-bg/30 hover:border-btn-indigo-border/50 transition-all duration-300 block text-center"
+              className="font-mono text-xs uppercase tracking-widest px-5 py-3 rounded-full bg-accent-primary text-brand-white shadow-md hover:shadow-lg transition-all duration-300 block text-center"
             >
               Hire Me
             </a>
             <a
               href={siteConfig.resumeUrl}
               download
-              className="font-mono text-xs uppercase tracking-widest px-5 py-3 rounded-full border border-accent-primary/40 text-accent-primary hover:bg-accent-primary hover:text-brand-black transition-all duration-300 block text-center"
+              className="font-mono text-xs uppercase tracking-widest px-5 py-3 rounded-full glass hover:bg-white/10 text-brand-white transition-all duration-300 block text-center"
             >
               Download Resume
             </a>

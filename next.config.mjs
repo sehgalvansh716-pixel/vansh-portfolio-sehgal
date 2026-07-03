@@ -10,6 +10,7 @@ const nextConfig = {
   turbopack: {},
   images: {
     formats: ["image/avif", "image/webp"],
+    qualities: [75, 100],
   },
 };
 

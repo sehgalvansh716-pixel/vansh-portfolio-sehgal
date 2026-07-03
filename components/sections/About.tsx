@@ -70,16 +70,28 @@ export default function About() {
         );
       }
 
-      // Accent frame parallax
-      if (accentFrameRef.current) {
+      // Accent frame & photo deep parallax
+      if (accentFrameRef.current && photoRef.current) {
         gsap.to(accentFrameRef.current, {
-          y: -30,
+          y: -60,
           ease: "none",
           scrollTrigger: {
             trigger: sectionRef.current,
             start: "top bottom",
             end: "bottom top",
             scrub: 0.5,
+          },
+        });
+        
+        gsap.to(photoRef.current.querySelector("img"), {
+          y: 40,
+          scale: 1.1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1,
           },
         });
       }

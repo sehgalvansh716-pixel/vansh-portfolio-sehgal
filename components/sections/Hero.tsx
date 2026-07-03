@@ -1,30 +1,32 @@
 "use client";
 import { useEffect, useRef, useState, Suspense } from "react";
 import dynamic from "next/dynamic";
+
+const Scene3D = dynamic(() => import("@/components/ui/Scene3D"), {
+  ssr: false,
+  loading: () => <div className="absolute inset-0 bg-brand-black" />,
+});
 import { gsap } from "@/lib/gsap";
 import { SplitText } from "@/lib/gsap";
 import MagneticButton from "@/components/ui/MagneticButton";
 import { siteConfig } from "@/data/site.config";
 import { ChevronDown } from "lucide-react";
-import HeroCanvasLoader from "@/components/ui/HeroCanvasLoader";
-
-const HeroCanvas = dynamic(() => import("@/components/three/HeroCanvas"), { ssr: false });
 
 export default function Hero() {
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const eyebrowRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
-  const distortionRef = useRef<number>(0);
-
+  const parallaxBoxRef = useRef<HTMLDivElement>(null);
   const [currentTagline, setCurrentTagline] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
-  const [holdUsed, setHoldUsed] = useState(false);
-  const [showHold, setShowHold] = useState(true);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   // ─── Kinetic H1 Entry ────────────────────────────────────────
   useEffect(() => {
+    if (!isLoaded) return; // Wait for Spline to finish loading
+
     const el = headlineRef.current;
     if (!el) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -51,7 +53,7 @@ export default function Hero() {
     }
 
     return () => { split?.revert(); };
-  }, []);
+  }, [isLoaded]);
 
   // ─── Typewriter Role Cycling ─────────────────────────────────
   useEffect(() => {
@@ -81,53 +83,69 @@ export default function Hero() {
     return () => clearTimeout(timeout);
   }, [displayText, isDeleting, currentTagline]);
 
-  // ─── Hold-to-Distort ─────────────────────────────────────────
-  const handleMouseDown = () => {
-    gsap.to(distortionRef, { current: 1.0, duration: 0.6, ease: "power2.out" });
-    if (!holdUsed) {
-      setHoldUsed(true);
-      setTimeout(() => setShowHold(false), 1500);
+  // ─── Mouse Parallax ──────────────────────────────────────────
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!parallaxBoxRef.current) return;
+      
+      const { innerWidth, innerHeight } = window;
+      const x = (e.clientX / innerWidth - 0.5) * 40; // max 20px shift
+      const y = (e.clientY / innerHeight - 0.5) * 40;
+
+      gsap.to(parallaxBoxRef.current, {
+        x,
+        y,
+        rotationY: x * 0.2,
+        rotationX: -y * 0.2,
+        ease: "power2.out",
+        duration: 1.5,
+      });
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
+  // ─── Preloader GSAP Wipe ─────────────────────────────────────
+  const preloaderRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (isLoaded && preloaderRef.current) {
+      gsap.to(preloaderRef.current, {
+        yPercent: -100,
+        duration: 1.2,
+        ease: "power4.inOut",
+        delay: 0.2, // Small pause to ensure Spline is fully rendered
+      });
     }
-  };
-  const handleMouseUp = () => {
-    gsap.to(distortionRef, { current: 0, duration: 0.8, ease: "power2.inOut" });
-  };
+  }, [isLoaded]);
 
   return (
+    <>
+    {/* Global Preloader Overlay */}
+    <div 
+      ref={preloaderRef}
+      className="fixed inset-0 z-[100] bg-brand-black flex flex-col items-center justify-center text-brand-white"
+    >
+      <div className="flex flex-col items-center gap-4">
+        <div className="w-12 h-12 rounded-full border-t-2 border-accent-primary animate-spin" />
+        <span className="font-mono text-xs uppercase tracking-[0.3em] text-brand-white/50 animate-pulse">
+          Loading Experience
+        </span>
+      </div>
+    </div>
+
     <section
       id="hero"
       aria-label="Hero — Introduction"
-      className="relative flex items-center justify-center overflow-hidden transition-colors duration-500"
-      style={{ height: "100dvh", backgroundColor: "var(--hero-bg-solid)" }}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp}
+      className="relative flex items-center justify-center overflow-hidden transition-colors duration-500 bg-brand-black"
+      style={{ height: "100dvh" }}
     >
-      {/* Background video - Dark Mode */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
+      {/* Subtle animated gradient background instead of video */}
+      <div
         aria-hidden="true"
-        className="hero-video-dark absolute inset-0 w-full h-full object-cover opacity-60 transition-all duration-500"
-        style={{ zIndex: 0, filter: "var(--video-invert)" }}
-      >
-        <source src="/video/hero-bg.mp4" type="video/mp4" />
-      </video>
-
-      {/* Background video - Light Mode */}
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        aria-hidden="true"
-        className="hero-video-light absolute inset-0 w-full h-full object-cover opacity-[0.85] transition-all duration-500"
-        style={{ zIndex: 0, filter: "var(--video-invert)" }}
-      >
-        <source src="/video/hero-bg-light.mp4" type="video/mp4" />
-      </video>
+        className="absolute inset-0 transition-colors duration-500 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-accent-primary/10 via-brand-black to-brand-black"
+        style={{ zIndex: 0 }}
+      />
 
       <div
         aria-hidden="true"
@@ -135,33 +153,20 @@ export default function Hero() {
         style={{
           zIndex: 0,
           background:
-            "radial-gradient(ellipse at 50% 50%, var(--glass-border) 0%, transparent 70%), linear-gradient(to bottom, var(--hero-bg-solid) 0%, transparent 20%, transparent 70%, var(--hero-bg-solid) 100%)",
+            "radial-gradient(ellipse at 50% 50%, var(--glass-border) 0%, transparent 70%), linear-gradient(to bottom, var(--brand-black) 0%, transparent 20%, transparent 70%, var(--brand-black) 100%)",
         }}
       />
 
-      {/* Bottom feather and blur transition */}
-      <div
-        aria-hidden="true"
-        className="absolute bottom-0 inset-x-0 h-48 pointer-events-none transition-colors duration-500"
-        style={{
-          zIndex: 0,
-          background: "linear-gradient(to top, var(--hero-bg-solid) 10%, transparent 100%)",
-          backdropFilter: "blur(12px)",
-          WebkitBackdropFilter: "blur(12px)",
-          maskImage: "linear-gradient(to top, black 20%, transparent 100%)",
-          WebkitMaskImage: "linear-gradient(to top, black 20%, transparent 100%)"
-        }}
-      />
-
-      {/* R3F Particle overlay */}
-      <Suspense fallback={<HeroCanvasLoader />}>
-        <HeroCanvas distortionRef={distortionRef} />
-      </Suspense>
+      {/* Custom 3D Background */}
+      <div className="absolute inset-0" style={{ zIndex: 1 }}>
+        <Scene3D onLoad={() => setIsLoaded(true)} />
+      </div>
 
       {/* Text content */}
       <div
-        className="relative text-center px-6 max-w-5xl mx-auto"
-        style={{ zIndex: 10 }}
+        ref={parallaxBoxRef}
+        className="relative text-center px-6 max-w-5xl mx-auto glass p-12 shadow-2xl pointer-events-none"
+        style={{ zIndex: 10, background: "rgba(255, 255, 255, 0.05)", transformStyle: "preserve-3d" }}
       >
         {/* Eyebrow */}
         <div
@@ -169,11 +174,11 @@ export default function Hero() {
           className="mb-6 flex items-center justify-center gap-3"
           style={{ opacity: 0 }}
         >
-          <div className="h-px w-12 bg-accent-primary/60 [.light_&]:shadow-[0_1px_2px_rgba(0,0,0,0.4)]" />
-          <span className="font-mono text-xs uppercase tracking-[0.3em] text-accent-primary [.light_&]:[text-shadow:0_1px_3px_rgba(0,0,0,0.6),0_1px_2px_rgba(0,0,0,0.3)]">
+          <div className="h-px w-12 bg-accent-primary/60" />
+          <span className="font-mono text-xs uppercase tracking-[0.3em] text-accent-primary">
             Available for opportunities
           </span>
-          <div className="h-px w-12 bg-accent-primary/60 [.light_&]:shadow-[0_1px_2px_rgba(0,0,0,0.4)]" />
+          <div className="h-px w-12 bg-accent-primary/60" />
         </div>
 
         {/* Main H1 */}
@@ -181,9 +186,9 @@ export default function Hero() {
           ref={headlineRef}
           className="font-display font-bold text-brand-white mb-4"
           style={{
-            fontSize: "clamp(52px, 9vw, 110px)",
-            lineHeight: 0.95,
-            letterSpacing: "-0.02em",
+            fontSize: "clamp(42px, 8vw, 96px)",
+            lineHeight: 1,
+            letterSpacing: "-0.03em",
             opacity: 0,
           }}
         >
@@ -196,7 +201,7 @@ export default function Hero() {
           aria-live="polite"
           aria-label={`Current role: ${siteConfig.taglines[currentTagline]}`}
         >
-          <span className="font-mono text-base text-accent-primary tracking-wider [.light_&]:[text-shadow:0_1px_3px_rgba(0,0,0,0.6),0_1px_2px_rgba(0,0,0,0.3)]">
+          <span className="font-mono text-base text-accent-primary tracking-wider font-medium">
             {displayText}
             <span className="blink-cursor ml-0.5">█</span>
           </span>
@@ -205,7 +210,7 @@ export default function Hero() {
         {/* CTA Row */}
         <div
           ref={ctaRef}
-          className="flex items-center justify-center gap-4 flex-wrap"
+          className="flex items-center justify-center gap-4 flex-wrap pointer-events-auto"
           style={{ opacity: 0 }}
         >
           <MagneticButton>
@@ -213,7 +218,7 @@ export default function Hero() {
               href={siteConfig.resumeUrl}
               download
               id="hero-download-resume"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-mono text-sm font-semibold uppercase tracking-widest bg-btn-indigo-bg/15 backdrop-blur-md border border-btn-indigo-border/30 border-t-btn-indigo-top/40 shadow-[0_4px_10px_rgba(0,0,0,0.1),inset_0_1px_3px_rgb(var(--btn-indigo-top)/0.25),inset_0_-1px_4px_rgba(0,0,0,0.2)] text-brand-white hover:bg-btn-indigo-bg/30 hover:border-btn-indigo-border/50 hover:shadow-[0_6px_15px_rgba(0,0,0,0.15),inset_0_1px_3px_rgb(var(--btn-indigo-top)/0.45)] transition-all duration-300 hover:scale-105"
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-mono text-sm font-semibold uppercase tracking-widest btn-liquid btn-liquid-filled text-brand-white hover:-translate-y-1 transition-all duration-300 pointer-events-auto"
             >
               Download Resume
             </a>
@@ -226,23 +231,14 @@ export default function Hero() {
                 e.preventDefault();
                 document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
               }}
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-mono text-sm uppercase tracking-widest bg-btn-indigo-bg/5 backdrop-blur-md border border-btn-indigo-border/20 border-t-btn-indigo-top/30 shadow-[0_4px_10px_rgba(0,0,0,0.05),inset_0_1px_2px_rgb(var(--btn-indigo-top)/0.15),inset_0_-1px_4px_rgba(0,0,0,0.1)] text-brand-white/90 hover:bg-btn-indigo-bg/15 hover:border-btn-indigo-border/40 hover:text-brand-white hover:shadow-[0_6px_15px_rgba(0,0,0,0.1),inset_0_1px_2px_rgb(var(--btn-indigo-top)/0.3)] transition-all duration-300"
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-mono text-sm uppercase tracking-widest btn-liquid text-brand-white transition-all duration-300 pointer-events-auto"
             >
               Let&apos;s Connect
             </a>
           </MagneticButton>
         </div>
 
-        {/* Hold hint */}
-        {showHold && (
-          <p
-            className="mt-8 font-mono text-xs uppercase tracking-[0.25em] text-brand-white/20 transition-opacity duration-500"
-            style={{ opacity: holdUsed ? 0 : 1 }}
-            aria-hidden="true"
-          >
-            HOLD to distort
-          </p>
-        )}
+
       </div>
 
       {/* Vertical sidebar text */}
@@ -255,7 +251,7 @@ export default function Hero() {
           zIndex: 10,
         }}
       >
-        <span className="font-mono text-xs tracking-[0.3em] text-brand-white/25">
+        <span className="font-mono text-xs tracking-[0.3em] text-brand-white/40">
           Est. 2023 · Delhi, India
         </span>
       </div>
@@ -276,5 +272,6 @@ export default function Hero() {
         />
       </div>
     </section>
+    </>
   );
 }

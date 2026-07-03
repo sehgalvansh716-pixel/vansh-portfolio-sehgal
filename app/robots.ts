@@ -1,13 +1,11 @@
 import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = "https://vanshsehgal.vercel.app";
-
   return {
     rules: {
       userAgent: '*',
       allow: '/',
     },
-    sitemap: `${baseUrl}/sitemap.xml`,
+    sitemap: 'https://vanshsehgal.vercel.app/sitemap.xml',
   };
 }

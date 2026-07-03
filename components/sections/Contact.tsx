@@ -54,7 +54,7 @@ export default function Contact() {
         aria-hidden="true"
         className="pointer-events-none absolute inset-0"
         style={{
-          background: "radial-gradient(ellipse at 60% 40%, rgba(16,185,129,0.05) 0%, transparent 60%)",
+          background: "radial-gradient(ellipse at 60% 40%, var(--glass-border) 0%, transparent 60%)",
         }}
       />
 
@@ -133,7 +133,7 @@ export default function Contact() {
                 required
                 rows={5}
                 placeholder="Tell me about the opportunity..."
-                className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-5 py-4 text-brand-white font-body text-sm placeholder:text-brand-white/20 focus:outline-none focus:border-accent-primary/50 transition-colors duration-300 resize-none"
+                className="w-full glass rounded-xl px-5 py-4 text-brand-white font-body text-sm placeholder:text-muted focus:outline-none focus:border-accent-primary/50 transition-colors duration-300 resize-none"
               />
             </div>
 
@@ -141,7 +141,7 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={status === "sending" || status === "sent"}
-                className="w-full flex items-center justify-center gap-3 px-8 py-4 rounded-full font-mono text-sm font-semibold uppercase tracking-widest bg-btn-indigo-bg/15 backdrop-blur-md border border-btn-indigo-border/30 border-t-btn-indigo-top/40 shadow-[0_4px_10px_rgba(0,0,0,0.1),inset_0_1px_3px_rgb(var(--btn-indigo-top)/0.25),inset_0_-1px_4px_rgba(0,0,0,0.2)] text-brand-white hover:bg-btn-indigo-bg/30 hover:border-btn-indigo-border/50 hover:shadow-[0_6px_15px_rgba(0,0,0,0.15),inset_0_1px_3px_rgb(var(--btn-indigo-top)/0.45)] transition-all duration-300 disabled:opacity-50"
+                className="w-full flex items-center justify-center gap-3 px-8 py-4 rounded-full font-mono text-sm font-semibold uppercase tracking-widest bg-accent-primary text-brand-white shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-50"
               >
                 <Send size={16} aria-hidden="true" />
                 {status === "idle" && "Send Message"}
@@ -178,7 +178,7 @@ function FormField({
         name={name}
         type={type}
         required={required}
-        className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-5 py-4 text-brand-white font-body text-sm placeholder:text-brand-white/20 focus:outline-none focus:border-accent-primary/50 transition-colors duration-300"
+        className="w-full glass rounded-xl px-5 py-4 text-brand-white font-body text-sm placeholder:text-muted focus:outline-none focus:border-accent-primary/50 transition-colors duration-300"
         placeholder={`Your ${label.toLowerCase()}...`}
       />
     </div>
@@ -191,22 +191,24 @@ function ContactLink({
   icon: React.ReactNode; label: string; value: string; href: string; external?: boolean;
 }) {
   return (
-    <a
-      href={href}
-      target={external ? "_blank" : undefined}
-      rel={external ? "noopener noreferrer" : undefined}
-      className="flex items-center gap-4 group"
-      aria-label={`${label}: ${value}`}
-    >
-      <div className="w-10 h-10 rounded-xl glass flex items-center justify-center text-accent-primary group-hover:bg-accent-primary group-hover:text-brand-black transition-all duration-300">
-        {icon}
-      </div>
-      <div>
-        <p className="font-mono text-[10px] uppercase tracking-wider text-muted">{label}</p>
-        <p className="font-body text-brand-white/80 text-sm group-hover:text-accent-primary transition-colors duration-200">
-          {value}
-        </p>
-      </div>
-    </a>
+    <MagneticButton>
+      <a
+        href={href}
+        target={external ? "_blank" : undefined}
+        rel={external ? "noopener noreferrer" : undefined}
+        className="flex items-center gap-4 group cursor-pointer"
+        aria-label={`${label}: ${value}`}
+      >
+        <div className="w-10 h-10 rounded-xl glass flex items-center justify-center text-accent-primary group-hover:bg-accent-primary group-hover:text-brand-black transition-all duration-300 pointer-events-none">
+          {icon}
+        </div>
+        <div className="pointer-events-none">
+          <p className="font-mono text-[10px] uppercase tracking-wider text-muted">{label}</p>
+          <p className="font-body text-brand-white/80 text-sm group-hover:text-accent-primary transition-colors duration-200">
+            {value}
+          </p>
+        </div>
+      </a>
+    </MagneticButton>
   );
 }

@@ -20,20 +20,24 @@ export default function Certifications() {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduced) return;
 
-    cardsRef.current.forEach((card) => {
-      if (!card) return;
+    if (cardsRef.current.length > 0) {
       gsap.fromTo(
-        card,
+        cardsRef.current,
         { y: 30, opacity: 0 },
         {
           y: 0,
           opacity: 1,
           duration: 0.65,
+          stagger: 0.1,
           ease: "power3.out",
-          scrollTrigger: { trigger: card, start: "top 95%", once: true },
+          scrollTrigger: { 
+            trigger: cardsRef.current[0], 
+            start: "top 95%", 
+            once: true 
+          },
         }
       );
-    });
+    }
 
     return () => { ScrollTrigger.getAll().forEach((t) => t.kill()); };
   }, []);

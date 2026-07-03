@@ -29,9 +29,9 @@ const config: Config = {
         },
       },
       fontFamily: {
-        display: ["var(--font-syne)", "sans-serif"],
-        mono: ["var(--font-jetbrains)", "monospace"],
-        body: ["var(--font-inter)", "sans-serif"],
+        display: ["var(--font-archivo)", "sans-serif"],
+        mono: ["var(--font-space-grotesk)", "monospace"],
+        body: ["var(--font-space-grotesk)", "sans-serif"],
       },
       screens: {
         "3xl": "1440px",

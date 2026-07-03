@@ -88,7 +88,7 @@ export default function Projects() {
         aria-hidden="true"
         className="pointer-events-none absolute inset-0"
         style={{
-          background: "radial-gradient(ellipse at 70% 50%, rgba(16,185,129,0.04) 0%, transparent 60%)",
+          background: "radial-gradient(ellipse at 70% 50%, var(--glass-border) 0%, transparent 60%)",
         }}
       />
 
@@ -122,8 +122,8 @@ export default function Projects() {
                 className={[
                   "font-mono text-xs uppercase tracking-widest px-4 py-2 rounded-full border transition-all duration-300",
                   activeFilter === cat
-                    ? "bg-accent-primary text-brand-black border-accent-primary"
-                    : "border-white/10 text-brand-white/50 hover:border-accent-primary/40 hover:text-accent-primary",
+                    ? "bg-accent-primary text-white border-accent-primary shadow-lg"
+                    : "glass text-muted hover:border-accent-primary/40 hover:text-accent-primary",
                 ].join(" ")}
               >
                 {cat}
@@ -132,13 +132,13 @@ export default function Projects() {
           </div>
         </div>
 
-        {/* Grid */}
+        {/* Stacking Cards */}
         <div
           ref={gridRef}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          className="flex flex-col gap-6"
         >
           {filtered.map((project, i) => (
-            <ProjectCard key={project.id} project={project} tall={i % 3 === 0} />
+            <ProjectCard key={project.id} project={project} index={i} total={filtered.length} tall={i % 3 === 0} />
           ))}
         </div>
       </div>
@@ -146,22 +146,10 @@ export default function Projects() {
   );
 }
 
-function ProjectCard({ project, tall }: { project: Project; tall: boolean }) {
+function ProjectCard({ project, tall, index, total }: { project: Project; tall: boolean; index: number; total: number }) {
   const cardRef = useRef<HTMLAnchorElement>(null);
 
-  const handleMouseEnter = () => {
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) return;
-    gsap.to(cardRef.current, { y: -8, duration: 0.3, ease: "power2.out" });
-    const viewArrow = cardRef.current?.querySelector("[data-view-arrow]");
-    if (viewArrow) gsap.to(viewArrow, { x: 0, opacity: 1, duration: 0.3, ease: "power2.out" });
-  };
 
-  const handleMouseLeave = () => {
-    gsap.to(cardRef.current, { y: 0, duration: 0.4, ease: "power2.inOut" });
-    const viewArrow = cardRef.current?.querySelector("[data-view-arrow]");
-    if (viewArrow) gsap.to(viewArrow, { x: -10, opacity: 0, duration: 0.25 });
-  };
 
   const isAI = project.title.toLowerCase().includes("ai");
   let imageOpacityClasses = "";
@@ -180,26 +168,27 @@ function ProjectCard({ project, tall }: { project: Project; tall: boolean }) {
       rel="noopener noreferrer"
       ref={cardRef}
       data-project-card
-      data-cursor="card"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      className="relative overflow-hidden rounded-2xl group cursor-pointer block"
+      className="relative overflow-hidden rounded-2xl group cursor-pointer block glass transition-all duration-300 hover:shadow-xl sticky"
       style={{
         minHeight: tall ? "480px" : "380px",
-        background: project.coverColor,
         willChange: "transform",
-        textDecoration: "none"
+        textDecoration: "none",
+        top: `calc(10vh + ${index * 30}px)`,
+        zIndex: index + 1,
+        transform: `scale(${1 - (total - index - 1) * 0.02})`, // Optional slight scale down for depth
       }}
     >
       {/* Background Document Preview */}
       {project.liveUrl.startsWith("/images/") && (
-        <Image
-          src={project.liveUrl}
-          alt={`${project.title} preview`}
-          fill
-          className={`object-cover object-top blur-sm group-hover:blur-none grayscale transition-all duration-700 ${imageOpacityClasses}`}
-          sizes="(max-width: 768px) 100vw, 50vw"
-        />
+        <div className="absolute inset-0 z-0">
+          <Image
+            src={project.liveUrl}
+            alt={`${project.title} preview`}
+            fill
+            className={`object-cover object-top blur-sm group-hover:blur-none grayscale transition-all duration-700 ${imageOpacityClasses}`}
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
+        </div>
       )}
 
       {/* Gradient overlay */}
@@ -207,50 +196,49 @@ function ProjectCard({ project, tall }: { project: Project; tall: boolean }) {
         aria-hidden="true"
         className="absolute inset-0"
         style={{
-          background: `linear-gradient(to top, #080A09 35%, ${project.coverColor}BB 70%, transparent 100%)`,
+          background: `linear-gradient(to top, var(--brand-black) 30%, ${project.coverColor}88 65%, transparent 100%)`,
         }}
       />
 
-      {/* Emerald shimmer top edge */}
+      {/* Shimmer top edge */}
       <div
         aria-hidden="true"
         className="absolute inset-x-0 top-0 h-px"
-        style={{ background: "linear-gradient(90deg, transparent, rgba(16,185,129,0.4), transparent)" }}
+        style={{ background: "linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.4), transparent)" }}
       />
 
       {/* View arrow — top right */}
       <div
         data-view-arrow
         aria-hidden="true"
-        className="absolute top-6 right-6 font-mono text-xs uppercase tracking-widest text-accent-primary"
-        style={{ opacity: 0, transform: "translateX(-10px)" }}
+        className="absolute top-6 right-6 font-mono text-xs uppercase tracking-widest text-accent-primary opacity-0 -translate-x-3 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0"
       >
         → VIEW
       </div>
 
       {/* Category badge */}
       <div className="absolute top-6 left-6">
-        <span className="font-mono text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full bg-accent-primary/10 text-accent-primary border border-accent-primary/20">
+        <span className="font-mono text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full bg-accent-primary/10 text-accent-primary border border-accent-primary/20 backdrop-blur-md">
           {project.category}
         </span>
       </div>
 
       {/* Bottom content */}
-      <div className="absolute bottom-0 inset-x-0 p-7">
+      <div className="absolute bottom-0 inset-x-0 p-7 z-10">
         <h3
           className="font-display font-bold text-brand-white mb-2"
           style={{ fontSize: "clamp(20px, 2.5vw, 28px)" }}
         >
           {project.title}
         </h3>
-        <p className="font-body text-brand-white/50 text-sm mb-4 leading-relaxed">
+        <p className="font-body text-brand-white/80 text-sm mb-4 leading-relaxed">
           {project.description}
         </p>
         <div className="flex flex-wrap gap-2">
           {project.tags.slice(0, 4).map((tag) => (
             <span
               key={tag}
-              className="font-mono text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full bg-white/5 text-brand-white/40 border border-white/10"
+              className="font-mono text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full bg-brand-white/5 text-brand-white/70 border border-brand-white/10 backdrop-blur-sm"
             >
               {tag}
             </span>

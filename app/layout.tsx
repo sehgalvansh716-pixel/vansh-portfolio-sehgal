@@ -1,34 +1,29 @@
 import type { Metadata } from "next";
-import { Syne, JetBrains_Mono, Inter } from "next/font/google";
+import { Archivo, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/data/site.config";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import ColorThemeProvider from "@/components/ColorThemeProvider";
 import { ClientOnlyWrappers } from "@/components/ClientOnlyWrappers";
 
 // ─── Google Fonts via next/font (zero layout shift) ──────────
-const syne = Syne({
+const archivo = Archivo({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  variable: "--font-syne",
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-archivo",
   display: "swap",
 });
 
-const jetbrainsMono = JetBrains_Mono({
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-jetbrains",
-  display: "swap",
-});
-
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["300", "400", "500"],
-  variable: "--font-inter",
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-space-grotesk",
   display: "swap",
 });
 
 // ─── Metadata ────────────────────────────────────────────────
 export const metadata: Metadata = {
+  metadataBase: new URL("https://vanshsehgal.vercel.app"),
   title: `${siteConfig.name} — ${siteConfig.title}`,
   description:
     "Vansh Sehgal is a Business Operations & Data Analyst based in Delhi, India. Specializing in SQL, Tableau, AI automation, and data-driven decision making. Google-certified, Deloitte-trained.",
@@ -126,7 +121,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${syne.variable} ${jetbrainsMono.variable} ${inter.variable}`}
+      className={`${archivo.variable} ${spaceGrotesk.variable}`}
     >
       <head>
         <script
@@ -144,16 +139,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </noscript>
       </head>
       <body suppressHydrationWarning id="main-content" className="bg-brand-black text-brand-white selection:bg-accent-primary/30 selection:text-brand-white min-h-[100dvh] flex flex-col font-body transition-colors duration-500">
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-          {/* Skip link for keyboard users */}
-          <a href="#main-content" className="skip-link">
-            Skip to main content
-          </a>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <ColorThemeProvider>
+            {/* Skip link for keyboard users */}
+            <a href="#main-content" className="skip-link">
+              Skip to main content
+            </a>
 
-        {/* Client-only: custom cursor + smooth scroller */}
-        <ClientOnlyWrappers />
+            {/* Client-only: custom cursor + smooth scroller */}
+            <ClientOnlyWrappers />
 
-        {children}
+            {children}
+          </ColorThemeProvider>
         </ThemeProvider>
       </body>
     </html>

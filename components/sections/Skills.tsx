@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
+import Spline from "@splinetool/react-spline";
 import { gsap } from "@/lib/gsap";
 import { SplitText } from "@/lib/gsap";
 import { skillCategories, aiCapabilities } from "@/data/skills.data";
@@ -42,9 +43,9 @@ export default function Skills() {
         const pills = pillsRef.current.querySelectorAll("[data-pill]");
         gsap.fromTo(
           pills,
-          { y: 20, opacity: 0 },
+          { scale: 0.5, opacity: 0 },
           {
-            y: 0, opacity: 1, stagger: 0.03, duration: 0.5, ease: "power2.out",
+            scale: 1, opacity: 1, stagger: 0.03, duration: 0.5, ease: "back.out(1.5)",
             scrollTrigger: { trigger: pillsRef.current, start: "top 95%", once: true },
           }
         );
@@ -140,8 +141,13 @@ export default function Skills() {
         </div>
 
         {/* ─── AI-Augmented Skill Stack ──────────────── */}
-        <div>
-          <div className="mb-10">
+        <div className="relative pt-12 pb-12 mt-12 min-h-[800px]">
+          {/* Spline Background */}
+          <div className="absolute inset-0 z-0 pointer-events-none opacity-100 lg:px-24" style={{ maskImage: "radial-gradient(ellipse at center, black 50%, transparent 80%)" }}>
+            <Spline scene="https://prod.spline.design/KAkn-w7hlauc9CcD/scene.splinecode" />
+          </div>
+
+          <div className="relative z-10 mb-10">
             <h3 className="font-display font-bold text-brand-white mb-2" style={{ fontSize: "clamp(24px, 3vw, 36px)" }}>
               AI-Augmented Skill Stack
             </h3>
@@ -152,16 +158,34 @@ export default function Skills() {
 
           <div
             ref={cardsContainerRef}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+            className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
           >
             {aiCapabilities.map((cap, i) => {
               const Icon = iconMap[cap.icon] || Globe;
+              
+              // Form a U-Shape on large screens with the 14 items
+              let lgClass = "";
+              if (i === 0) lgClass = "lg:col-start-1 lg:row-start-1";
+              else if (i === 1) lgClass = "lg:col-start-4 lg:row-start-1";
+              else if (i === 2) lgClass = "lg:col-start-1 lg:row-start-2";
+              else if (i === 3) lgClass = "lg:col-start-4 lg:row-start-2";
+              else if (i === 4) lgClass = "lg:col-start-1 lg:row-start-3";
+              else if (i === 5) lgClass = "lg:col-start-4 lg:row-start-3";
+              else if (i === 6) lgClass = "lg:col-start-1 lg:row-start-4";
+              else if (i === 7) lgClass = "lg:col-start-4 lg:row-start-4";
+              else if (i === 8) lgClass = "lg:col-start-1 lg:row-start-5";
+              else if (i === 9) lgClass = "lg:col-start-4 lg:row-start-5";
+              else if (i === 10) lgClass = "lg:col-start-1 lg:row-start-6";
+              else if (i === 11) lgClass = "lg:col-start-2 lg:row-start-6";
+              else if (i === 12) lgClass = "lg:col-start-3 lg:row-start-6";
+              else if (i === 13) lgClass = "lg:col-start-4 lg:row-start-6";
+
               return (
                 <div
                   key={cap.name}
                   data-ai-card
                   data-cursor="card"
-                  className="glass rounded-2xl p-5 group hover:-translate-y-1 hover:border-accent-primary/30 hover:shadow-[0_0_20px_rgba(16,185,129,0.1)] transition-all duration-300"
+                  className={`glass rounded-2xl p-5 group hover:-translate-y-1 hover:border-accent-primary/30 hover:shadow-[0_0_20px_rgba(16,185,129,0.1)] transition-all duration-300 ${lgClass}`}
                 >
                   {/* Top row */}
                   <div className="flex items-center justify-between mb-3">

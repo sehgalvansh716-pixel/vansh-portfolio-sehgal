@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
-import { gsap } from "@/lib/gsap";
+import { gsap, SplitText } from "@/lib/gsap";
 import { siteConfig } from "@/data/site.config";
 import { Linkedin, Mail, Phone, ArrowUp } from "lucide-react";
 
@@ -82,6 +82,24 @@ export default function Footer() {
       svg.removeEventListener("mouseleave", onLeave);
       svg.removeEventListener("mousedown", playTone);
     };
+  }, []);
+
+  // AI Text reveal
+  const aiTextRef = useRef<HTMLParagraphElement>(null);
+  useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced || !aiTextRef.current) return;
+    try {
+      const split = new SplitText(aiTextRef.current, { type: "words" });
+      gsap.from(split.words, {
+        y: 40,
+        opacity: 0,
+        stagger: 0.1,
+        duration: 0.8,
+        ease: "back.out(1.7)",
+        scrollTrigger: { trigger: aiTextRef.current, start: "top 95%", once: true },
+      });
+    } catch { /* noop */ }
   }, []);
 
   const scrollToTop = () => {
@@ -202,9 +220,9 @@ export default function Footer() {
         </div>
         
         {/* AI Built Badge */}
-        <div className="pt-8 pb-4 text-center">
-          <p className="font-display font-bold text-lg text-brand-white uppercase tracking-widest opacity-80">
-            THIS IS TOTALLY BUILD BY AN AI
+        <div className="pt-8 pb-4 text-center overflow-hidden">
+          <p ref={aiTextRef} className="font-display font-bold text-lg text-brand-white uppercase tracking-widest opacity-80">
+            THIS IS TOTALLY BUILT BY AN AI
           </p>
         </div>
       </div>

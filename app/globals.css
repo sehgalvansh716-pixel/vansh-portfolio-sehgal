@@ -4,58 +4,89 @@
 
 /* ─── CSS Variables ─────────────────────────────────────────── */
 :root {
-  --brand-black: #080A09;
-  --brand-white: #F0FFF8;
-  --accent-primary: #10B981;
-  --accent-secondary: #34D399;
-  --accent-dim: #059669;
-  --muted: #9CA3AF; /* gray-400 for better contrast on dark bg */
-  --surface: #0F1510;
-  --glass-border: rgba(16, 185, 129, 0.12);
-  --font-display: var(--font-syne);
-  --font-mono: var(--font-jetbrains);
-  --font-body: var(--font-inter);
+  /* Default (Dark Mode) */
+  --brand-black: #09090B;
+  --brand-white: #FAFAFA;
+  --accent-primary: #3B82F6;
+  --accent-secondary: #60A5FA;
+  --accent-dim: #1D4ED8;
+  --muted: #A1A1AA;
+  --surface: #18181B;
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --font-display: var(--font-archivo);
+  --font-mono: var(--font-space-grotesk);
+  --font-body: var(--font-space-grotesk);
   --video-invert: invert(0);
-  --hero-bg-solid: #080A09;
+  --hero-bg-solid: #09090B;
 
-  /* Button Colors (Dark Mode) */
-  --btn-indigo-bg: 49 46 129;
-  --btn-indigo-border: 79 70 229;
-  --btn-indigo-top: 129 140 248;
+  /* Button Colors */
+  --btn-indigo-bg: 37 99 235;
+  --btn-indigo-border: 59 130 246;
+  --btn-indigo-top: 96 165 250;
 
-  --btn-teal-bg: 4 47 46;
-  --btn-teal-border: 13 148 136;
-  --btn-teal-top: 45 212 191;
+  --btn-teal-bg: 30 58 138;
+  --btn-teal-border: 30 64 175;
+  --btn-teal-top: 59 130 246;
 }
 
 .hero-video-dark { display: block; }
 .hero-video-light { display: none; }
 
 .light {
-  --brand-black: #F8FAFC;
-  --brand-white: #020617;
-  --accent-primary: #059669;
-  --accent-secondary: #10B981;
-  --accent-dim: #D1FAE5;
-  --muted: #334155; /* slate-700 for better contrast on light bg */
-  --surface: #F1F5F9;
-  --glass-border: rgba(5, 150, 105, 0.2);
+  /* Light Mode */
+  --brand-black: #FAFAFA;
+  --brand-white: #09090B;
+  --accent-primary: #2563EB;
+  --accent-secondary: #1D4ED8;
+  --accent-dim: #DBEAFE;
+  --muted: #52525B;
+  --surface: #FFFFFF;
+  --glass-border: rgba(0, 0, 0, 0.1);
 
   --video-invert: invert(0) opacity(1);
-  --hero-bg-solid: #F8FAFC;
+  --hero-bg-solid: #FAFAFA;
 
-  /* Button Colors (Light Mode) */
-  --btn-indigo-bg: 99 102 241;
-  --btn-indigo-border: 79 70 229;
-  --btn-indigo-top: 67 56 202;
+  /* Button Colors */
+  --btn-indigo-bg: 37 99 235;
+  --btn-indigo-border: 29 78 216;
+  --btn-indigo-top: 59 130 246;
 
-  --btn-teal-bg: 20 184 166;
-  --btn-teal-border: 13 148 136;
-  --btn-teal-top: 15 118 110;
+  --btn-teal-bg: 219 234 254;
+  --btn-teal-border: 191 219 254;
+  --btn-teal-top: 147 197 253;
 }
 
 .light .hero-video-dark { display: none; }
 .light .hero-video-light { display: block; }
+
+/* ─── Dynamic Color Themes ──────────────────────────────────── */
+/* Emerald Theme */
+.theme-emerald {
+  --accent-primary: #10B981;
+  --accent-secondary: #34D399;
+  --accent-dim: #047857;
+  --btn-indigo-border: 16 185 129;
+}
+.light.theme-emerald, .theme-emerald .light {
+  --accent-primary: #059669;
+  --accent-secondary: #10B981;
+  --accent-dim: #D1FAE5;
+  --btn-indigo-border: 5 150 105;
+}
+
+/* Purple Theme */
+.theme-purple {
+  --accent-primary: #8B5CF6;
+  --accent-secondary: #A78BFA;
+  --accent-dim: #6D28D9;
+  --btn-indigo-border: 139 92 246;
+}
+.light.theme-purple, .theme-purple .light {
+  --accent-primary: #7C3AED;
+  --accent-secondary: #8B5CF6;
+  --accent-dim: #EDE9FE;
+  --btn-indigo-border: 124 58 237;
+}
 
 /* ─── Base Reset ────────────────────────────────────────────── */
 *, *::before, *::after {
@@ -76,7 +107,6 @@ body {
   background-color: var(--brand-black);
   color: var(--brand-white);
   overflow-x: hidden;
-  cursor: none; /* Custom cursor replaces default */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -180,6 +210,43 @@ body {
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(16, 185, 129, 0.12);
   border-radius: 16px;
+}
+
+/* ─── Liquid Glass Buttons ──────────────────────────────────── */
+.btn-liquid {
+  position: relative;
+  overflow: hidden;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+.btn-liquid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--accent-primary);
+  opacity: 0.15;
+  z-index: -1;
+  transition: opacity 0.3s ease;
+}
+.btn-liquid-filled::before {
+  opacity: 0.5;
+}
+.btn-liquid:hover::before {
+  opacity: 0.3;
+}
+.btn-liquid-filled:hover::before {
+  opacity: 0.7;
+}
+.btn-liquid::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.1) 100%);
+  z-index: -1;
 }
 
 /* ─── Gradient Text ─────────────────────────────────────────── */
