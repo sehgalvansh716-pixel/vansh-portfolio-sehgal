@@ -59,19 +59,23 @@
 .light .hero-video-dark { display: none; }
 .light .hero-video-light { display: block; }
 
-/* ─── Dynamic Color Themes ──────────────────────────────────── */
+/* ─── Dynamic Color Themes ─────────────────────────────── */
 /* Emerald Theme */
 .theme-emerald {
   --accent-primary: #10B981;
   --accent-secondary: #34D399;
   --accent-dim: #047857;
-  --btn-indigo-border: 16 185 129;
+  --btn-indigo-bg:     4  120  87;   /* deep emerald glass bg   */
+  --btn-indigo-border: 16 185 129;   /* emerald border           */
+  --btn-indigo-top:    52 211 153;   /* bright emerald highlight */
 }
 .light.theme-emerald, .theme-emerald .light {
   --accent-primary: #059669;
   --accent-secondary: #10B981;
   --accent-dim: #D1FAE5;
-  --btn-indigo-border: 5 150 105;
+  --btn-indigo-bg:      5 150 105;
+  --btn-indigo-border:  5 150 105;
+  --btn-indigo-top:    16 185 129;
 }
 
 /* Purple Theme */
@@ -79,13 +83,17 @@
   --accent-primary: #8B5CF6;
   --accent-secondary: #A78BFA;
   --accent-dim: #6D28D9;
-  --btn-indigo-border: 139 92 246;
+  --btn-indigo-bg:    109  40 217;   /* deep violet glass bg    */
+  --btn-indigo-border: 139  92 246;  /* purple border            */
+  --btn-indigo-top:    167 139 250;  /* bright violet highlight  */
 }
 .light.theme-purple, .theme-purple .light {
   --accent-primary: #7C3AED;
   --accent-secondary: #8B5CF6;
   --accent-dim: #EDE9FE;
-  --btn-indigo-border: 124 58 237;
+  --btn-indigo-bg:    109  40 217;
+  --btn-indigo-border: 124  58 237;
+  --btn-indigo-top:   139  92 246;
 }
 
 /* ─── Base Reset ────────────────────────────────────────────── */
@@ -301,6 +309,60 @@ body {
 .blink-cursor {
   animation: blink 1s step-end infinite;
   color: var(--accent-primary);
+}
+
+/* ─── Premium Glass ─────────────────────────────────────────── */
+.premium-glass {
+  /*
+   * Using the exact same three-layer variable system as the Hire Me / Resume
+   * buttons: --btn-indigo-bg (tinted fill), --btn-indigo-border (side edges),
+   * --btn-indigo-top (bright top highlight + inner glow). All three update
+   * automatically when the user switches themes.
+   */
+  background-color: rgb(var(--btn-indigo-bg) / 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  /* Side + bottom border uses the mid-tone accent */
+  border: 1px solid rgb(var(--btn-indigo-border) / 0.28);
+  /* Top edge catches light — uses the brightest accent tone */
+  border-top-color: rgb(var(--btn-indigo-top) / 0.45);
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.12),
+    /* color-tinted inner glow simulates glass depth */
+    inset 0 1px 3px rgb(var(--btn-indigo-top) / 0.18),
+    inset 0 -1px 4px rgba(0, 0, 0, 0.22);
+  /* GPU promotion without will-change overhead */
+  transform: translateY(0px) translateZ(0);
+  /* exit: smooth settle */
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 0.3s ease,
+              border-color 0.3s ease;
+  isolation: isolate;
+}
+
+.premium-glass:hover {
+  background-color: rgb(var(--btn-indigo-bg) / 0.16);
+  border-color: rgb(var(--btn-indigo-border) / 0.45);
+  border-top-color: rgb(var(--btn-indigo-top) / 0.6);
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.18),
+    /* outer colored glow — same as the Hire Me hover */
+    0 0 28px rgb(var(--btn-indigo-border) / 0.22),
+    inset 0 1px 3px rgb(var(--btn-indigo-top) / 0.35),
+    inset 0 -1px 4px rgba(0, 0, 0, 0.22);
+  transform: translateY(-5px) translateZ(0);
+  /* entrance: slow spring */
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.4s ease,
+              border-color 0.4s ease;
+}
+
+/* Tactile press */
+.premium-glass:active {
+  transform: translateY(-1px) translateZ(0);
+  transition-duration: 0.08s;
 }
 
 /* ─── Reduced Motion ────────────────────────────────────────── */

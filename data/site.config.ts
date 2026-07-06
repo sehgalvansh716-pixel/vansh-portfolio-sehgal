@@ -26,6 +26,20 @@ export const siteConfig = {
   ],
   experience: [
     {
+      id: "spraykart",
+      company: "SprayKart",
+      via: "",
+      role: "Business Operations & AI Intern",
+      period: "2025 – Present",
+      type: "internship",
+      bullets: [
+        "Streamlining core business operations by implementing AI-powered workflow automation, reducing manual documentation overhead and accelerating task-execution speed across teams.",
+        "Applying prompt engineering and data management skills to support real-time operational decisions, directly contributing to SprayKart's growth and process efficiency.",
+      ],
+      tags: ["Business Operations", "AI Automation", "Prompt Engineering", "Data Management"],
+      featured: true,
+    },
+    {
       id: "deloitte",
       company: "Deloitte",
       via: "via Forage",
@@ -147,22 +161,22 @@ export const siteConfig = {
   ],
   testimonials: [
     {
-      quote: "Vansh's ability to seamlessly translate complex data into actionable business operations is exceptional. His work during the Deloitte simulation showcased exactly the kind of analytical rigor companies look for.",
-      name: "S. Sharma",
-      role: "Operations Manager",
-      company: "Industry Peer",
+      quote: "Vansh joined us as an intern and immediately took ownership of our operational tasks. His ability to streamline our business processes and his proactive approach towards data management have been incredible for SprayKart's growth.",
+      name: "Khushi",
+      role: "Founder",
+      company: "SprayKart",
     },
     {
-      quote: "Rarely do you find someone who combines top-tier data entry speed with the strategic mindset of an AI-augmented analyst. Vansh delivers precision and efficiency in every task.",
-      name: "A. Kapoor",
-      role: "Data Lead",
-      company: "Previous Client",
+      quote: "Having Vansh on the team was a great decision. He brings a unique blend of analytical thinking and sheer hard work. His prompt engineering skills and business acumen helped us save significant manual effort during critical sprints.",
+      name: "Prakash",
+      role: "Co-Founder",
+      company: "SprayKart",
     },
     {
-      quote: "From handling high-pressure conflict resolution to engineering AI prompts that save hours of manual labor, Vansh's cross-disciplinary skill set makes him an invaluable asset to any operations team.",
-      name: "R. Singh",
-      role: "Customer Relations Director",
-      company: "Aviation & Hospitality",
+      quote: "Working alongside Vansh has been fantastic. He's a quick learner, always ready to help out with complex data entry tasks, and brings a great positive energy to the operations team. A truly reliable and hardworking teammate.",
+      name: "Rahul",
+      role: "Operations Executive",
+      company: "SprayKart",
     },
   ],
   blogs: [

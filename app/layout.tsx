@@ -51,9 +51,9 @@ export const metadata: Metadata = {
     siteName: "Vansh Sehgal Portfolio",
     images: [
       {
-        url: "/images/avatar.jpg",
-        width: 800,
-        height: 800,
+        url: "/images/og-preview.png",
+        width: 1200,
+        height: 630,
         alt: "Vansh Sehgal — Business Operations & Data Analyst",
       },
     ],
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${siteConfig.name} — ${siteConfig.title}`,
     description: "Business Operations & Data Analyst. AI-augmented. Google-certified. Deloitte-trained.",
-    images: ["/images/avatar.jpg"],
+    images: ["/images/og-preview.png"],
   },
   robots: {
     index: true,

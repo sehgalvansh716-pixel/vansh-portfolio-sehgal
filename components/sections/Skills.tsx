@@ -7,12 +7,14 @@ import { skillCategories, aiCapabilities } from "@/data/skills.data";
 import {
   Globe, Palette, ShieldCheck, Lock, FileText, BarChart2,
   Bot, GitBranch, TestTube2, Cloud, Accessibility, Plug, Rocket, Cpu,
+  Terminal, Zap, Search, TrendingUp, Database, PieChart, Table, Settings, Folder,
   type LucideIcon,
 } from "lucide-react";
 
 const iconMap: Record<string, LucideIcon> = {
   Globe, Palette, ShieldCheck, Lock, FileText, BarChart2,
   Bot, GitBranch, TestTube2, Cloud, Accessibility, Plug, Rocket, Cpu,
+  Terminal, Zap, Search, TrendingUp, Database, PieChart, Table, Settings, Folder,
 };
 
 export default function Skills() {
@@ -20,6 +22,7 @@ export default function Skills() {
   const headingRef = useRef<HTMLHeadingElement>(null);
   const pillsRef = useRef<HTMLDivElement>(null);
   const cardsContainerRef = useRef<HTMLDivElement>(null);
+  const splineRef = useRef<HTMLDivElement>(null);
   const progressBars = useRef<(HTMLDivElement | null)[]>([]);
   const [isMobile, setIsMobile] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -70,6 +73,18 @@ export default function Skills() {
           {
             y: 0, opacity: 1, stagger: 0.05, duration: 0.65, ease: "power3.out",
             scrollTrigger: { trigger: cardsContainerRef.current, start: "top 95%", once: true },
+          }
+        );
+      }
+
+      // Spline zoom out
+      if (splineRef.current) {
+        gsap.fromTo(
+          splineRef.current,
+          { scale: 1.15, opacity: 0 },
+          {
+            scale: 1, opacity: 1, duration: 1.5, ease: "power2.out",
+            scrollTrigger: { trigger: splineRef.current, start: "top 80%", once: true },
           }
         );
       }
@@ -139,7 +154,7 @@ export default function Skills() {
                     <span
                       key={skill}
                       data-pill
-                      className="font-mono text-sm px-4 py-2 rounded-full border border-white/15 bg-white/5 text-brand-white/80 hover:border-accent-primary/60 hover:text-accent-primary hover:bg-accent-primary/5 transition-all duration-300 cursor-default"
+                      className="font-mono text-sm px-4 py-2 rounded-full premium-glass text-brand-white/80 hover:text-accent-primary cursor-default"
                     >
                       {skill}
                     </span>
@@ -150,32 +165,86 @@ export default function Skills() {
           </div>
         </div>
 
+        {/* ─── Languages & Soft Skills Strip ────────────── */}
+        <div className="mb-20">
+          <h3 className="font-mono text-sm font-semibold uppercase tracking-[0.2em] text-brand-white/70 mb-8">
+            Languages &amp; Soft Skills
+          </h3>
+          <div className="flex flex-col gap-6 lg:flex-row lg:gap-12">
+            {/* Languages */}
+            <div>
+              <p className="font-mono text-xs font-medium uppercase tracking-[0.15em] text-accent-primary mb-4">Languages</p>
+              <div className="flex flex-wrap gap-3">
+                {[
+                  { lang: "Hindi", level: "Native" },
+                  { lang: "English", level: "Fluent" },
+                ].map(({ lang, level }) => (
+                  <div key={lang} className="premium-glass rounded-2xl px-5 py-3.5 flex items-center gap-3">
+                    <span className="font-display font-semibold text-brand-white text-sm">{lang}</span>
+                    <span className="font-mono text-[10px] uppercase tracking-widest px-2 py-0.5 rounded-full bg-accent-primary/15 text-accent-primary border border-accent-primary/20">
+                      {level}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Divider */}
+            <div className="hidden lg:block w-px bg-white/10 self-stretch" aria-hidden="true" />
+
+            {/* Soft Skills */}
+            <div className="flex-1">
+              <p className="font-mono text-xs font-medium uppercase tracking-[0.15em] text-accent-primary mb-4">Soft Skills</p>
+              <div className="flex flex-wrap gap-2">
+                {[
+                  { icon: "🤝", label: "Client Relations" },
+                  { icon: "🧠", label: "Analytical Thinking" },
+                  { icon: "⚡", label: "Fast Learner" },
+                  { icon: "🌏", label: "Cross-Cultural Comm." },
+                  { icon: "📋", label: "Conflict Resolution" },
+                  { icon: "🎯", label: "Detail-Oriented" },
+                  { icon: "💡", label: "Problem Solving" },
+                  { icon: "🔄", label: "Adaptability" },
+                ].map(({ icon, label }) => (
+                  <span
+                    key={label}
+                    className="premium-glass font-mono text-xs text-brand-white/80 hover:text-accent-primary px-3.5 py-2 rounded-full flex items-center gap-2 cursor-default"
+                  >
+                    <span aria-hidden="true">{icon}</span>
+                    {label}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* ─── AI-Augmented Skill Stack ──────────────── */}
         <div className="relative pt-12 pb-12 mt-12 min-h-[800px]">
           {/* Spline Background */}
-          <div className="absolute inset-0 z-0 pointer-events-none opacity-100 lg:px-24" style={{ maskImage: "radial-gradient(ellipse at center, black 50%, transparent 80%)" }}>
+          <div ref={splineRef} className="absolute inset-0 z-0 opacity-100 lg:px-24" style={{ maskImage: "radial-gradient(ellipse at center, black 50%, transparent 80%)" }}>
             {mounted && !isMobile && (
               <Spline scene="https://prod.spline.design/KAkn-w7hlauc9CcD/scene.splinecode" />
             )}
           </div>
 
-          <div className="relative z-10 mb-10">
-            <h3 className="font-display font-bold text-brand-white mb-2" style={{ fontSize: "clamp(24px, 3vw, 36px)" }}>
+          <div className="relative z-10 mb-10 pointer-events-none">
+            <h3 className="font-display font-bold text-brand-white mb-2 pointer-events-auto" style={{ fontSize: "clamp(24px, 3vw, 36px)" }}>
               AI-Augmented Skill Stack
             </h3>
-            <p className="font-body text-muted text-sm">
+            <p className="font-body text-muted text-sm pointer-events-auto">
               AI systems and toolchains I operate and build with.
             </p>
           </div>
 
           <div
             ref={cardsContainerRef}
-            className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+            className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pointer-events-none"
           >
             {aiCapabilities.map((cap, i) => {
               const Icon = iconMap[cap.icon] || Globe;
               
-              // Form a U-Shape on large screens with the 14 items
+              // Form a U-Shape on large screens with the 12 items
               let lgClass = "";
               if (i === 0) lgClass = "lg:col-start-1 lg:row-start-1";
               else if (i === 1) lgClass = "lg:col-start-4 lg:row-start-1";
@@ -186,18 +255,16 @@ export default function Skills() {
               else if (i === 6) lgClass = "lg:col-start-1 lg:row-start-4";
               else if (i === 7) lgClass = "lg:col-start-4 lg:row-start-4";
               else if (i === 8) lgClass = "lg:col-start-1 lg:row-start-5";
-              else if (i === 9) lgClass = "lg:col-start-4 lg:row-start-5";
-              else if (i === 10) lgClass = "lg:col-start-1 lg:row-start-6";
-              else if (i === 11) lgClass = "lg:col-start-2 lg:row-start-6";
-              else if (i === 12) lgClass = "lg:col-start-3 lg:row-start-6";
-              else if (i === 13) lgClass = "lg:col-start-4 lg:row-start-6";
+              else if (i === 9) lgClass = "lg:col-start-2 lg:row-start-5";
+              else if (i === 10) lgClass = "lg:col-start-3 lg:row-start-5";
+              else if (i === 11) lgClass = "lg:col-start-4 lg:row-start-5";
 
               return (
                 <div
                   key={cap.name}
                   data-ai-card
                   data-cursor="card"
-                  className={`glass rounded-2xl p-5 group hover:-translate-y-1 hover:border-accent-primary/30 hover:shadow-[0_0_20px_rgba(16,185,129,0.1)] transition-all duration-300 ${lgClass}`}
+                  className={`pointer-events-auto premium-glass rounded-2xl p-5 group hover:-translate-y-1 ${lgClass}`}
                 >
                   {/* Top row */}
                   <div className="flex items-center justify-between mb-3">

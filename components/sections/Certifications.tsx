@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { siteConfig } from "@/data/site.config";
@@ -15,6 +15,7 @@ const certImages: Record<number, string> = {
 
 export default function Certifications() {
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const [selectedCertImage, setSelectedCertImage] = useState<string | null>(null);
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -43,7 +44,8 @@ export default function Certifications() {
   }, []);
 
   return (
-    <section
+    <>
+      <section
       id="certifications"
       aria-label="Certifications and Achievements"
       className="relative py-28 px-6"
@@ -87,7 +89,8 @@ export default function Certifications() {
               <div
                 key={cert.name}
                 ref={(el) => { cardsRef.current[i] = el; }}
-                className="group relative flex flex-col rounded-2xl overflow-hidden border border-white/10 bg-white/[0.03] hover:border-accent-primary/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(16,185,129,0.08)]"
+                onClick={() => hasImage && setSelectedCertImage(certImages[i])}
+                className={`group relative flex flex-col rounded-2xl overflow-hidden premium-glass transition-all duration-300 hover:-translate-y-1 ${hasImage ? 'cursor-pointer' : ''}`}
               >
                 {/* Certificate image or gradient header */}
                 <div className="relative h-44 overflow-hidden">
@@ -199,5 +202,38 @@ export default function Certifications() {
         </div>
       </div>
     </section>
+
+      {/* Fullscreen Certificate Modal */}
+      {selectedCertImage && (
+        <div 
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md transition-opacity"
+          onClick={() => setSelectedCertImage(null)}
+        >
+          <div 
+            className="relative max-w-5xl max-h-[90vh] w-full h-full rounded-xl overflow-hidden shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Image
+              src={selectedCertImage || ""}
+              alt="Certificate Full View"
+              fill
+              className="object-contain select-none"
+              onContextMenu={(e) => e.preventDefault()}
+              onDragStart={(e) => e.preventDefault()}
+            />
+            <button
+              onClick={() => setSelectedCertImage(null)}
+              className="absolute top-4 right-4 bg-black/50 hover:bg-black/80 p-2 rounded-full text-white backdrop-blur-md transition-colors border border-white/10"
+              aria-label="Close"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

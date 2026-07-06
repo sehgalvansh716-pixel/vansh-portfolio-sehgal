@@ -157,8 +157,16 @@ export default function Hero() {
         }}
       />
 
-      {/* Custom 3D Background */}
-      <div className="absolute inset-0" style={{ zIndex: 1 }}>
+      {/* Custom 3D Background — isolated GPU layer so card hover never moves it */}
+      <div
+        className="absolute inset-0"
+        style={{
+          zIndex: 1,
+          willChange: "transform",
+          transform: "translateZ(0)",
+          contain: "strict",
+        }}
+      >
         <Scene3D onLoad={() => setIsLoaded(true)} />
       </div>
 

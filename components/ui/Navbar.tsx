@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { gsap } from "@/lib/gsap";
 import MagneticButton from "@/components/ui/MagneticButton";
 import { siteConfig } from "@/data/site.config";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Download } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 
 const navLinks = [
@@ -17,6 +17,14 @@ const navLinks = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [resumeOpen, setResumeOpen] = useState(false);
+
+  // Close modal on Escape
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setResumeOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -124,7 +132,7 @@ export default function Navbar() {
                 <a
                   href={link.href}
                   onClick={(e) => smoothScroll(e, link.href)}
-                  className="font-mono text-xs font-semibold uppercase tracking-widest px-4 py-2 rounded-full glass hover:bg-white/10 text-brand-white hover:text-accent-primary transition-all duration-300 inline-block"
+                  className="font-mono text-xs font-semibold uppercase tracking-widest px-5 py-2.5 rounded-full premium-glass text-brand-white hover:text-accent-primary transition-all duration-300 inline-block"
                 >
                   {link.label}
                 </a>
@@ -145,13 +153,12 @@ export default function Navbar() {
               </a>
             </MagneticButton>
             <MagneticButton className="hidden md:block">
-              <a
-                href={siteConfig.resumeUrl}
-                download
+              <button
+                onClick={() => setResumeOpen(true)}
                 className="font-mono text-xs font-semibold uppercase tracking-widest px-5 py-2.5 rounded-full bg-btn-teal-bg/10 backdrop-blur-md border border-btn-teal-border/30 border-t-btn-teal-top/40 shadow-[0_4px_10px_rgba(0,0,0,0.1),inset_0_1px_3px_rgb(var(--btn-teal-top)/0.2),inset_0_-1px_4px_rgba(0,0,0,0.2)] text-brand-white hover:bg-btn-teal-bg/20 hover:border-btn-teal-border/50 hover:shadow-[0_6px_15px_rgba(0,0,0,0.15),inset_0_1px_3px_rgb(var(--btn-teal-top)/0.4)] transition-all duration-300"
               >
                 Resume
-              </a>
+              </button>
             </MagneticButton>
 
             <button
@@ -187,7 +194,7 @@ export default function Navbar() {
               <a
                 href={link.href}
                 onClick={(e) => smoothScroll(e, link.href)}
-                className="font-mono text-xs font-semibold uppercase tracking-widest px-5 py-3 rounded-full glass hover:bg-white/10 text-brand-white hover:text-accent-primary transition-all duration-300 block text-center"
+                className="font-mono text-xs font-semibold uppercase tracking-widest px-5 py-3 rounded-full premium-glass text-brand-white hover:text-accent-primary transition-all duration-300 block text-center"
               >
                 {link.label}
               </a>
@@ -211,6 +218,62 @@ export default function Navbar() {
           </li>
         </ul>
       </div>
+
+      {/* ─── Resume Preview Modal ────────────────────────────── */}
+      {resumeOpen && (
+        <div
+          className="fixed inset-0 z-[200] flex items-center justify-center p-4 md:p-8"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Resume Preview"
+        >
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-brand-black/80 backdrop-blur-md"
+            onClick={() => setResumeOpen(false)}
+            aria-hidden="true"
+          />
+
+          {/* Modal Panel */}
+          <div className="relative w-full max-w-4xl h-[90svh] premium-glass rounded-3xl overflow-hidden flex flex-col">
+            {/* Header */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 flex-shrink-0">
+              <div>
+                <h2 className="font-display font-bold text-brand-white text-lg">Vansh Sehgal — Resume</h2>
+                <p className="font-mono text-xs text-muted uppercase tracking-widest">Preview Only</p>
+              </div>
+              <div className="flex items-center gap-3">
+                <a
+                  href={siteConfig.resumeUrl}
+                  download
+                  className="inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-widest px-4 py-2 rounded-full premium-glass text-brand-white hover:text-accent-primary transition-all duration-300"
+                >
+                  <Download size={13} />
+                  Download
+                </a>
+                <button
+                  onClick={() => setResumeOpen(false)}
+                  aria-label="Close resume preview"
+                  className="p-2 rounded-full premium-glass text-brand-white hover:text-accent-primary transition-all duration-300"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+            </div>
+
+            {/* Google Docs iframe viewer */}
+            <div className="flex-1 relative bg-brand-black flex items-center justify-center">
+              <iframe
+                src={`https://docs.google.com/gview?url=https://vanshsehgal.vercel.app${siteConfig.resumeUrl}&embedded=true`}
+                className="w-full h-full border-0 absolute inset-0 z-10"
+                title="Vansh Sehgal Resume Preview"
+                aria-label="Resume document preview"
+              />
+              <p className="text-muted/50 font-mono text-sm z-0">Loading preview from Google Docs...</p>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

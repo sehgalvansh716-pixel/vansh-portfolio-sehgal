@@ -111,13 +111,54 @@ export default function Experience() {
 
         <h2
           ref={headingRef}
-          className="font-display font-bold mb-20"
+          className="font-display font-bold mb-12"
           style={{ fontSize: "clamp(36px, 5vw, 64px)", lineHeight: 1.05, letterSpacing: "-0.02em" }}
         >
           The journey
           <br />
           <span className="gradient-text">so far.</span>
         </h2>
+
+        {/* ── SprayKart Featured Card ──────────────────────────── */}
+        <div className="mb-20 relative overflow-hidden rounded-3xl premium-glass border-l-4 border-l-accent-primary p-8 lg:p-10">
+          {/* Live pulse badge */}
+          <div className="absolute top-6 right-6 flex items-center gap-2">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-primary opacity-75" />
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent-primary" />
+            </span>
+            <span className="font-mono text-[10px] uppercase tracking-widest text-accent-primary">Currently Here</span>
+          </div>
+
+          <div className="flex flex-col lg:flex-row lg:items-start lg:gap-16">
+            {/* Left: company info */}
+            <div className="flex-shrink-0 mb-6 lg:mb-0 lg:w-56">
+              <span className="font-mono text-[10px] uppercase tracking-widest text-muted mb-2 block">2025 — Present</span>
+              <h3 className="font-display font-bold text-brand-white mb-1 text-2xl xl:text-3xl">SprayKart</h3>
+              <p className="font-mono text-sm text-accent-primary">Business Operations &amp; AI Intern</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {["Business Operations", "AI Automation", "Prompt Engineering", "Data Management"].map((tag) => (
+                  <span key={tag} className="font-mono text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full bg-accent-primary/10 text-accent-primary border border-accent-primary/20">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Right: bullets */}
+            <ul className="space-y-4 flex-1">
+              {[
+                "Streamlining core business operations by implementing AI-powered workflow automation, reducing manual documentation overhead and accelerating task-execution speed across teams.",
+                "Applying prompt engineering and data management skills to support real-time operational decisions, directly contributing to SprayKart's growth and process efficiency.",
+              ].map((bullet, j) => (
+                <li key={j} className="flex gap-3 items-start text-brand-white/70 font-body text-sm lg:text-base leading-relaxed">
+                  <span className="text-accent-primary mt-1.5 shrink-0 text-base" aria-hidden="true">›</span>
+                  {bullet}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
 
         {/* Timeline */}
         <div className="relative">
@@ -157,7 +198,7 @@ export default function Experience() {
                     <>
                       <article
                         data-exp-left
-                        className="glass rounded-2xl p-7 lg:text-right lg:border-r lg:border-r-accent-primary/10 border-l-2 border-l-accent-primary/30 lg:border-l-0 mb-4 lg:mb-0 relative before:absolute before:right-[-12px] before:top-8 before:w-3 before:h-px before:bg-accent-primary/30 hidden lg:block"
+                        className="premium-glass hover:-translate-y-1 transition-all duration-300 rounded-2xl p-7 lg:text-right lg:border-r lg:border-r-accent-primary/10 border-l-2 border-l-accent-primary/30 lg:border-l-0 mb-4 lg:mb-0 relative before:absolute before:right-[-12px] before:top-8 before:w-3 before:h-px before:bg-accent-primary/30 hidden lg:block"
                       >
                         <ExpCardContent exp={exp} />
                       </article>
@@ -165,7 +206,7 @@ export default function Experience() {
                       {/* Mobile version for "Left" cards since mobile is always right-aligned */}
                       <article
                         data-exp-right
-                        className="glass rounded-2xl p-7 border-l-2 border-l-accent-primary/30 lg:hidden"
+                        className="premium-glass hover:-translate-y-1 transition-all duration-300 rounded-2xl p-7 border-l-2 border-l-accent-primary/30 lg:hidden"
                       >
                         <ExpCardContent exp={exp} />
                       </article>
@@ -176,7 +217,7 @@ export default function Experience() {
                       <div className="hidden lg:block" />
                       <article
                         data-exp-right
-                        className="glass rounded-2xl p-7 border-l-2 border-l-accent-primary/30 relative before:absolute before:left-[-12px] before:top-8 before:w-3 before:h-px before:bg-accent-primary/30 hidden lg:block"
+                        className="premium-glass hover:-translate-y-1 transition-all duration-300 rounded-2xl p-7 border-l-2 border-l-accent-primary/30 relative before:absolute before:left-[-12px] before:top-8 before:w-3 before:h-px before:bg-accent-primary/30 hidden lg:block"
                       >
                         <ExpCardContent exp={exp} />
                       </article>
@@ -184,7 +225,7 @@ export default function Experience() {
                       {/* Mobile version for "Right" cards */}
                       <article
                         data-exp-right
-                        className="glass rounded-2xl p-7 border-l-2 border-l-accent-primary/30 lg:hidden"
+                        className="premium-glass hover:-translate-y-1 transition-all duration-300 rounded-2xl p-7 border-l-2 border-l-accent-primary/30 lg:hidden"
                       >
                         <ExpCardContent exp={exp} />
                       </article>

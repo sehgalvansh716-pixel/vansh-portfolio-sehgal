@@ -15,7 +15,6 @@ import Footer from "@/components/sections/Footer";
 // Custom SVG Dividers
 import RibbonDivider from "@/components/ui/dividers/RibbonDivider";
 import VisionDivider from "@/components/ui/dividers/VisionDivider";
-import AscensionDivider from "@/components/ui/dividers/AscensionDivider";
 import ConstellationDivider from "@/components/ui/dividers/ConstellationDivider";
 // import CpuScrollAnimation from "@/components/sections/CpuScrollAnimation";
 
@@ -38,7 +37,6 @@ export default function Home() {
         <Skills />
         <VisionDivider />
         <Experience />
-        <AscensionDivider />
         <Projects />
         <ConstellationDivider />
         <Testimonials />
