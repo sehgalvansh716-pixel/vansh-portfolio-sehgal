@@ -1,11 +1,53 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { projects } from "@/data/projects.data";
 import { ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
+import { gsap } from "@/lib/gsap";
 
 export default function Projects() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const desktopImgRef = useRef<HTMLDivElement>(null);
+  const mobileImgRef = useRef<HTMLDivElement>(null);
+  
+  useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) return;
+
+    if (desktopImgRef.current) {
+      gsap.fromTo(
+        desktopImgRef.current,
+        { clipPath: "inset(100% 0% 0% 0%)" },
+        { 
+          clipPath: "inset(0% 0% 0% 0%)", 
+          duration: 1.4, 
+          ease: "power4.inOut",
+          scrollTrigger: {
+            trigger: desktopImgRef.current,
+            start: "top 85%",
+            once: true,
+          }
+        }
+      );
+    }
+    
+    if (mobileImgRef.current) {
+      gsap.fromTo(
+        mobileImgRef.current,
+        { clipPath: "inset(100% 0% 0% 0%)" },
+        { 
+          clipPath: "inset(0% 0% 0% 0%)", 
+          duration: 1.4, 
+          ease: "power4.inOut",
+          scrollTrigger: {
+            trigger: mobileImgRef.current,
+            start: "top 85%",
+            once: true,
+          }
+        }
+      );
+    }
+  }, []);
 
   const handleNext = () => setActiveIndex((prev) => (prev + 1) % projects.length);
   const handlePrev = () => setActiveIndex((prev) => (prev - 1 + projects.length) % projects.length);
@@ -97,7 +139,7 @@ export default function Projects() {
 
         {/* Right Column: Image */}
         <div className="flex items-center justify-center relative z-0">
-          <div className="w-full aspect-[4/5] xl:aspect-[3/4] max-h-[80vh] relative">
+          <div ref={desktopImgRef} className="w-full aspect-video max-h-[80vh] relative">
             {projects.map((p, index) => {
               const hasImage = p.liveUrl.startsWith("/images/");
               return (
@@ -153,7 +195,7 @@ export default function Projects() {
         </div>
 
         {/* Mobile Image Container */}
-        <div className="relative w-full aspect-[4/5] mb-8">
+        <div ref={mobileImgRef} className="relative w-full aspect-video mb-8">
           {projects.map((p, index) => {
             const hasImage = p.liveUrl.startsWith("/images/");
             return (

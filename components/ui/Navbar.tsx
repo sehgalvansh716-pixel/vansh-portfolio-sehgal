@@ -33,29 +33,34 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    const header = document.querySelector("[data-nav-item]") as HTMLElement;
-    if (!header) return;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) {
-      header.style.opacity = "1";
-      return;
-    }
-    const tl = gsap.timeline();
-    tl.fromTo(
-      header,
-      { y: -24, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.7, ease: "power3.out", delay: 0.15 }
-    );
-
-    const links = header.querySelectorAll("[data-nav-anim]");
-    if (links.length) {
+    const onPreloaderComplete = () => {
+      const header = document.querySelector("[data-nav-item]") as HTMLElement;
+      if (!header) return;
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduced) {
+        header.style.opacity = "1";
+        return;
+      }
+      const tl = gsap.timeline();
       tl.fromTo(
-        links,
-        { y: -10, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.4, stagger: 0.05, ease: "power2.out" },
-        "-=0.4"
+        header,
+        { y: -24, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.7, ease: "power3.out", delay: 0.15 }
       );
-    }
+
+      const links = header.querySelectorAll("[data-nav-anim]");
+      if (links.length) {
+        tl.fromTo(
+          links,
+          { y: -10, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.4, stagger: 0.05, ease: "power2.out" },
+          "-=0.4"
+        );
+      }
+    };
+
+    window.addEventListener("preloaderComplete", onPreloaderComplete);
+    return () => window.removeEventListener("preloaderComplete", onPreloaderComplete);
   }, []);
 
   // Body scroll lock and focus trap for mobile menu

@@ -10,6 +10,7 @@ import { gsap } from "@/lib/gsap";
 import { SplitText } from "@/lib/gsap";
 import MagneticButton from "@/components/ui/MagneticButton";
 import { siteConfig } from "@/data/site.config";
+import Preloader from "@/components/ui/Preloader";
 import { ChevronDown } from "lucide-react";
 
 export default function Hero() {
@@ -22,10 +23,18 @@ export default function Hero() {
   const [displayText, setDisplayText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [preloaderDone, setPreloaderDone] = useState(false);
+
+  // Listen for global preloader completion
+  useEffect(() => {
+    const onPreloaderComplete = () => setPreloaderDone(true);
+    window.addEventListener("preloaderComplete", onPreloaderComplete);
+    return () => window.removeEventListener("preloaderComplete", onPreloaderComplete);
+  }, []);
 
   // ─── Kinetic H1 Entry ────────────────────────────────────────
   useEffect(() => {
-    if (!isLoaded) return; // Wait for Spline to finish loading
+    if (!preloaderDone) return; // Wait for the cinematic preloader to finish its exit animation!
 
     const el = headlineRef.current;
     if (!el) return;
@@ -39,7 +48,7 @@ export default function Hero() {
     try {
       split = new SplitText(el, { type: "chars,words" });
       gsap.set(el, { opacity: 1 }); // Make parent visible so child chars can be seen
-      const tl = gsap.timeline({ delay: 0.3 });
+      const tl = gsap.timeline({ delay: 0.1 }); // Less delay since preloader handled the pause
       tl.fromTo(
         split.chars,
         { y: 120, opacity: 0, rotateX: -90 },
@@ -53,7 +62,7 @@ export default function Hero() {
     }
 
     return () => { split?.revert(); };
-  }, [isLoaded]);
+  }, [preloaderDone]);
 
   // ─── Typewriter Role Cycling ─────────────────────────────────
   useEffect(() => {
@@ -106,33 +115,9 @@ export default function Hero() {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-  // ─── Preloader GSAP Wipe ─────────────────────────────────────
-  const preloaderRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (isLoaded && preloaderRef.current) {
-      gsap.to(preloaderRef.current, {
-        yPercent: -100,
-        duration: 1.2,
-        ease: "power4.inOut",
-        delay: 0.2, // Small pause to ensure Spline is fully rendered
-      });
-    }
-  }, [isLoaded]);
-
   return (
     <>
-    {/* Global Preloader Overlay */}
-    <div 
-      ref={preloaderRef}
-      className="fixed inset-0 z-[100] bg-brand-black flex flex-col items-center justify-center text-brand-white"
-    >
-      <div className="flex flex-col items-center gap-4">
-        <div className="w-12 h-12 rounded-full border-t-2 border-accent-primary animate-spin" />
-        <span className="font-mono text-xs uppercase tracking-[0.3em] text-brand-white/50 animate-pulse">
-          Loading Experience
-        </span>
-      </div>
-    </div>
+    <Preloader isLoaded={isLoaded} />
 
     <section
       id="hero"

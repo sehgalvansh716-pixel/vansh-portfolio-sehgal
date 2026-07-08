@@ -83,17 +83,22 @@ export default function About() {
           },
         });
         
-        gsap.to(photoRef.current.querySelector("img"), {
-          y: 40,
-          scale: 1.1,
-          ease: "none",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1,
-          },
-        });
+        // First set the image to be larger than the container so it has room to move
+        gsap.set(photoRef.current.querySelector("img"), { scale: 1.15 });
+
+        gsap.fromTo(photoRef.current.querySelector("img"), 
+          { y: -15 },
+          {
+            y: 15,
+            ease: "none",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 1,
+            },
+          }
+        );
       }
 
       // Stat container stagger fade up
@@ -107,9 +112,28 @@ export default function About() {
             scrollTrigger: { trigger: statsRef.current, start: "top 95%", once: true },
           }
         );
-      }
 
-      // No count-up animation: stats render as static values
+        // Count-up animation
+        const statValues = statsRef.current.querySelectorAll("[data-stat-value]");
+        statValues.forEach((el) => {
+          const targetValue = parseInt(el.getAttribute("data-target") || "0", 10);
+          gsap.fromTo(
+            el,
+            { textContent: 0 },
+            {
+              textContent: targetValue,
+              duration: 2,
+              ease: "power2.out",
+              snap: { textContent: 1 },
+              scrollTrigger: {
+                trigger: statsRef.current,
+                start: "top 95%",
+                once: true,
+              },
+            }
+          );
+        });
+      }
     }, sectionRef);
 
     return () => ctx.revert();
@@ -162,7 +186,7 @@ export default function About() {
                 className="absolute -bottom-4 -right-4 w-full h-full border-2 border-accent-primary/25 rounded-2xl"
               />
               {/* Photo */}
-              <div className="relative rounded-2xl overflow-hidden w-72 h-80">
+              <div data-image-mask className="relative rounded-2xl overflow-hidden w-72 h-80">
                 <Image
                   src="/images/avatar.jpg"
                   alt="Vansh Sehgal — Business Operations & Data Analyst, Delhi"
@@ -191,12 +215,13 @@ export default function About() {
               {siteConfig.stats.map((stat) => (
                 <div key={stat.label} className="glass rounded-xl p-5">
                   <p
-                    className="font-display font-bold text-brand-white leading-none mb-1"
+                    className="font-display font-bold text-brand-white leading-none mb-1 flex items-baseline"
                     style={{ fontSize: "clamp(48px, 6vw, 72px)" }}
                   >
-                    <span>
-                      {stat.value}{stat.suffix}
+                    <span data-stat-value data-target={stat.value}>
+                      {stat.value}
                     </span>
+                    <span>{stat.suffix}</span>
                   </p>
                   <p className="font-mono text-xs uppercase tracking-[0.25em] text-muted">
                     {stat.label}
