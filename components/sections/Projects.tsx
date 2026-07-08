@@ -63,10 +63,10 @@ export default function Projects() {
                     href={p.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-3 font-mono text-xs font-semibold uppercase tracking-widest px-6 py-3 rounded-full premium-glass text-brand-white hover:text-accent-primary transition-all duration-300 group"
+                    className="inline-flex items-center gap-3 font-mono text-xs font-semibold uppercase tracking-widest px-6 py-3 rounded-full premium-glass text-brand-white hover:text-accent-primary transition-all duration-[600ms] group"
                   >
                     View Live Project
-                    <ExternalLink size={14} className="group-hover:rotate-45 transition-transform duration-300" />
+                    <ExternalLink size={14} className="group-hover:rotate-45 transition-transform duration-[600ms]" />
                   </a>
                 </div>
               </div>
@@ -78,14 +78,14 @@ export default function Projects() {
             <button 
               onClick={handlePrev}
               aria-label="Previous project"
-              className="p-4 rounded-full premium-glass text-brand-white hover:text-accent-primary transition-all duration-300 group"
+              className="p-4 rounded-full premium-glass text-brand-white hover:text-accent-primary transition-all duration-[600ms] group"
             >
               <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
             </button>
             <button 
               onClick={handleNext}
               aria-label="Next project"
-              className="p-4 rounded-full premium-glass text-brand-white hover:text-accent-primary transition-all duration-300 group"
+              className="p-4 rounded-full premium-glass text-brand-white hover:text-accent-primary transition-all duration-[600ms] group"
             >
               <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </button>
@@ -226,7 +226,7 @@ export default function Projects() {
                   href={p.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-3 font-mono text-xs font-semibold uppercase tracking-widest px-6 py-3.5 rounded-full premium-glass text-brand-white hover:text-accent-primary transition-all duration-300"
+                  className="inline-flex items-center justify-center gap-3 font-mono text-xs font-semibold uppercase tracking-widest px-6 py-3.5 rounded-full premium-glass text-brand-white hover:text-accent-primary transition-all duration-[600ms]"
                 >
                   View Live Project
                   <ExternalLink size={14} />
@@ -241,7 +241,7 @@ export default function Projects() {
           <button 
             onClick={handlePrev}
             aria-label="Previous project"
-            className="p-4 rounded-full premium-glass text-brand-white hover:text-accent-primary transition-all duration-300 active:scale-95"
+            className="p-4 rounded-full premium-glass text-brand-white hover:text-accent-primary transition-all duration-[600ms] active:scale-95"
           >
             <ChevronLeft size={20} />
           </button>
@@ -253,7 +253,7 @@ export default function Projects() {
           <button 
             onClick={handleNext}
             aria-label="Next project"
-            className="p-4 rounded-full premium-glass text-brand-white hover:text-accent-primary transition-all duration-300 active:scale-95"
+            className="p-4 rounded-full premium-glass text-brand-white hover:text-accent-primary transition-all duration-[600ms] active:scale-95"
           >
             <ChevronRight size={20} />
           </button>

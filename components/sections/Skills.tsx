@@ -104,6 +104,37 @@ export default function Skills() {
     return () => ctx.revert();
   }, []);
 
+  // Emulate hover states for the transparent cards so they glow when hovered, 
+  // without stealing mouse events from the 3D Spline canvas behind them!
+  useEffect(() => {
+    if (!mounted || isMobile) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!cardsContainerRef.current) return;
+      const cards = cardsContainerRef.current.querySelectorAll<HTMLDivElement>("[data-ai-card]");
+      
+      cards.forEach((card) => {
+        const rect = card.getBoundingClientRect();
+        // Check if mouse is inside the card's bounding box
+        const isHovered = (
+          e.clientX >= rect.left &&
+          e.clientX <= rect.right &&
+          e.clientY >= rect.top &&
+          e.clientY <= rect.bottom
+        );
+        
+        if (isHovered) {
+          card.classList.add("hover-emulate");
+        } else {
+          card.classList.remove("hover-emulate");
+        }
+      });
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [mounted, isMobile]);
+
   return (
     <section
       id="skills"
@@ -229,10 +260,10 @@ export default function Skills() {
           </div>
 
           <div className="relative z-10 mb-10 pointer-events-none">
-            <h3 className="font-display font-bold text-brand-white mb-2 pointer-events-auto" style={{ fontSize: "clamp(24px, 3vw, 36px)" }}>
+            <h3 className="font-display font-bold text-brand-white mb-2" style={{ fontSize: "clamp(24px, 3vw, 36px)" }}>
               AI-Augmented Skill Stack
             </h3>
-            <p className="font-body text-muted text-sm pointer-events-auto">
+            <p className="font-body text-muted text-sm">
               AI systems and toolchains I operate and build with.
             </p>
           </div>
@@ -263,8 +294,7 @@ export default function Skills() {
                 <div
                   key={cap.name}
                   data-ai-card
-                  data-cursor="card"
-                  className={`pointer-events-auto premium-glass rounded-2xl p-5 group hover:-translate-y-1 ${lgClass}`}
+                  className={`premium-glass rounded-2xl p-5 group ${lgClass}`}
                 >
                   {/* Top row */}
                   <div className="flex items-center justify-between mb-3">

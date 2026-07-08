@@ -47,7 +47,7 @@ export default function Navbar() {
       { y: 0, opacity: 1, duration: 0.7, ease: "power3.out", delay: 0.15 }
     );
 
-    const links = header.querySelectorAll("li");
+    const links = header.querySelectorAll("[data-nav-anim]");
     if (links.length) {
       tl.fromTo(
         links,
@@ -128,11 +128,11 @@ export default function Navbar() {
           {/* Desktop links */}
           <ul suppressHydrationWarning className="hidden md:flex items-center gap-2" role="list">
             {navLinks.map((link) => (
-              <li key={link.href}>
+              <li key={link.href} data-nav-anim>
                 <a
                   href={link.href}
                   onClick={(e) => smoothScroll(e, link.href)}
-                  className="font-mono text-xs font-semibold uppercase tracking-widest px-5 py-2.5 rounded-full premium-glass text-brand-white hover:text-accent-primary transition-all duration-300 inline-block"
+                  className="font-mono text-xs font-semibold uppercase tracking-widest px-5 py-2.5 rounded-full premium-glass text-brand-white hover:text-accent-primary transition-all duration-[600ms] inline-block"
                 >
                   {link.label}
                 </a>
@@ -143,23 +143,27 @@ export default function Navbar() {
           {/* CTA + Hamburger */}
           <div className="flex items-center gap-4">
             <ThemeToggle />
-            <MagneticButton className="hidden md:block">
-              <a
-                href="#contact"
-                onClick={(e) => smoothScroll(e, "#contact")}
-                className="font-mono text-xs font-semibold uppercase tracking-widest px-5 py-2.5 rounded-full bg-btn-indigo-bg/10 backdrop-blur-md border border-btn-indigo-border/30 border-t-btn-indigo-top/40 shadow-[0_4px_10px_rgba(0,0,0,0.1),inset_0_1px_3px_rgb(var(--btn-indigo-top)/0.2),inset_0_-1px_4px_rgba(0,0,0,0.2)] text-brand-white hover:bg-btn-indigo-bg/20 hover:border-btn-indigo-border/50 hover:shadow-[0_6px_15px_rgba(0,0,0,0.15),inset_0_1px_3px_rgb(var(--btn-indigo-top)/0.4)] transition-all duration-300"
-              >
-                Hire Me
-              </a>
-            </MagneticButton>
-            <MagneticButton className="hidden md:block">
-              <button
-                onClick={() => setResumeOpen(true)}
-                className="font-mono text-xs font-semibold uppercase tracking-widest px-5 py-2.5 rounded-full bg-btn-teal-bg/10 backdrop-blur-md border border-btn-teal-border/30 border-t-btn-teal-top/40 shadow-[0_4px_10px_rgba(0,0,0,0.1),inset_0_1px_3px_rgb(var(--btn-teal-top)/0.2),inset_0_-1px_4px_rgba(0,0,0,0.2)] text-brand-white hover:bg-btn-teal-bg/20 hover:border-btn-teal-border/50 hover:shadow-[0_6px_15px_rgba(0,0,0,0.15),inset_0_1px_3px_rgb(var(--btn-teal-top)/0.4)] transition-all duration-300"
-              >
-                Resume
-              </button>
-            </MagneticButton>
+            <div data-nav-anim>
+              <MagneticButton className="hidden md:block">
+                <a
+                  href="#contact"
+                  onClick={(e) => smoothScroll(e, "#contact")}
+                  className="font-mono text-xs font-semibold uppercase tracking-widest px-5 py-2.5 rounded-full bg-btn-indigo-bg/10 backdrop-blur-md border border-btn-indigo-border/30 border-t-btn-indigo-top/40 shadow-[0_4px_10px_rgba(0,0,0,0.1),inset_0_1px_3px_rgb(var(--btn-indigo-top)/0.2),inset_0_-1px_4px_rgba(0,0,0,0.2)] text-brand-white hover:bg-btn-indigo-bg/20 hover:border-btn-indigo-border/50 hover:shadow-[0_6px_15px_rgba(0,0,0,0.15),inset_0_1px_3px_rgb(var(--btn-indigo-top)/0.4)] transition-all duration-[600ms]"
+                >
+                  Hire Me
+                </a>
+              </MagneticButton>
+            </div>
+            <div data-nav-anim>
+              <MagneticButton className="hidden md:block">
+                <button
+                  onClick={() => setResumeOpen(true)}
+                  className="font-mono text-xs font-semibold uppercase tracking-widest px-5 py-2.5 rounded-full bg-btn-teal-bg/10 backdrop-blur-md border border-btn-teal-border/30 border-t-btn-teal-top/40 shadow-[0_4px_10px_rgba(0,0,0,0.1),inset_0_1px_3px_rgb(var(--btn-teal-top)/0.2),inset_0_-1px_4px_rgba(0,0,0,0.2)] text-brand-white hover:bg-btn-teal-bg/20 hover:border-btn-teal-border/50 hover:shadow-[0_6px_15px_rgba(0,0,0,0.15),inset_0_1px_3px_rgb(var(--btn-teal-top)/0.4)] transition-all duration-[600ms]"
+                >
+                  Resume
+                </button>
+              </MagneticButton>
+            </div>
 
             <button
               className="md:hidden text-brand-white p-2"
@@ -194,7 +198,7 @@ export default function Navbar() {
               <a
                 href={link.href}
                 onClick={(e) => smoothScroll(e, link.href)}
-                className="font-mono text-xs font-semibold uppercase tracking-widest px-5 py-3 rounded-full premium-glass text-brand-white hover:text-accent-primary transition-all duration-300 block text-center"
+                className="font-mono text-xs font-semibold uppercase tracking-widest px-5 py-3 rounded-full premium-glass text-brand-white hover:text-accent-primary transition-all duration-[600ms] block text-center"
               >
                 {link.label}
               </a>
@@ -204,14 +208,14 @@ export default function Navbar() {
             <a
               href="#contact"
               onClick={(e) => smoothScroll(e, "#contact")}
-              className="font-mono text-xs uppercase tracking-widest px-5 py-3 rounded-full bg-accent-primary text-brand-white shadow-md hover:shadow-lg transition-all duration-300 block text-center"
+              className="font-mono text-xs uppercase tracking-widest px-5 py-3 rounded-full bg-accent-primary text-brand-white shadow-md hover:shadow-lg transition-all duration-[600ms] block text-center"
             >
               Hire Me
             </a>
             <a
               href={siteConfig.resumeUrl}
               download
-              className="font-mono text-xs uppercase tracking-widest px-5 py-3 rounded-full glass hover:bg-white/10 text-brand-white transition-all duration-300 block text-center"
+              className="font-mono text-xs uppercase tracking-widest px-5 py-3 rounded-full glass hover:bg-white/10 text-brand-white transition-all duration-[600ms] block text-center"
             >
               Download Resume
             </a>
@@ -246,7 +250,7 @@ export default function Navbar() {
                 <a
                   href={siteConfig.resumeUrl}
                   download
-                  className="inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-widest px-4 py-2 rounded-full premium-glass text-brand-white hover:text-accent-primary transition-all duration-300"
+                  className="inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-widest px-4 py-2 rounded-full premium-glass text-brand-white hover:text-accent-primary transition-all duration-[600ms]"
                 >
                   <Download size={13} />
                   Download
@@ -254,22 +258,37 @@ export default function Navbar() {
                 <button
                   onClick={() => setResumeOpen(false)}
                   aria-label="Close resume preview"
-                  className="p-2 rounded-full premium-glass text-brand-white hover:text-accent-primary transition-all duration-300"
+                  className="p-2 rounded-full premium-glass text-brand-white hover:text-accent-primary transition-all duration-[600ms]"
                 >
                   <X size={18} />
                 </button>
               </div>
             </div>
 
-            {/* Google Docs iframe viewer */}
+            {/* Resume Viewer */}
             <div className="flex-1 relative bg-brand-black flex items-center justify-center">
-              <iframe
-                src={`https://docs.google.com/gview?url=https://vanshsehgal.vercel.app${siteConfig.resumeUrl}&embedded=true`}
-                className="w-full h-full border-0 absolute inset-0 z-10"
-                title="Vansh Sehgal Resume Preview"
-                aria-label="Resume document preview"
-              />
-              <p className="text-muted/50 font-mono text-sm z-0">Loading preview from Google Docs...</p>
+              {siteConfig.resumeUrl.endsWith('.pdf') ? (
+                <iframe
+                  src={siteConfig.resumeUrl}
+                  className="w-full h-full border-0 absolute inset-0 z-10"
+                  title="Vansh Sehgal Resume Preview"
+                  aria-label="Resume document preview"
+                />
+              ) : (
+                <div className="flex flex-col items-center justify-center p-8 text-center z-10">
+                  <p className="text-brand-white font-display text-lg mb-2">Resume is in .docx format</p>
+                  <p className="text-muted/80 font-mono text-sm max-w-md mb-6">
+                    Web browsers cannot preview Microsoft Word documents natively (and online viewers like Google Docs don't work on localhost).
+                  </p>
+                  <a
+                    href={siteConfig.resumeUrl}
+                    download
+                    className="font-mono text-xs font-semibold uppercase tracking-widest px-6 py-3 rounded-full bg-accent-primary text-brand-white hover:bg-accent-primary/80 transition-all"
+                  >
+                    Download Resume Instead
+                  </a>
+                </div>
+              )}
             </div>
           </div>
         </div>

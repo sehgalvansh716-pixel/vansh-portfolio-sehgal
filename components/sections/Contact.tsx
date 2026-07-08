@@ -133,7 +133,7 @@ export default function Contact() {
                 required
                 rows={5}
                 placeholder="Tell me about the opportunity..."
-                className="w-full premium-glass rounded-xl px-5 py-4 text-brand-white font-body text-sm placeholder:text-muted focus:outline-none focus:border-accent-primary/50 transition-colors duration-300 resize-none"
+                className="w-full premium-glass rounded-xl px-5 py-4 text-brand-white font-body text-sm placeholder:text-muted focus:outline-none focus:border-accent-primary/50 transition-colors duration-[600ms] resize-none"
               />
             </div>
 
@@ -141,7 +141,7 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={status === "sending" || status === "sent"}
-                className="w-full flex items-center justify-center gap-3 px-8 py-4 rounded-full font-mono text-sm font-semibold uppercase tracking-widest premium-glass text-brand-white transition-all duration-300 disabled:opacity-50"
+                className="w-full flex items-center justify-center gap-3 px-8 py-4 rounded-full font-mono text-sm font-semibold uppercase tracking-widest premium-glass text-brand-white transition-all duration-[600ms] disabled:opacity-50"
               >
                 <Send size={16} aria-hidden="true" />
                 {status === "idle" && "Send Message"}
@@ -178,7 +178,7 @@ function FormField({
         name={name}
         type={type}
         required={required}
-        className="w-full premium-glass rounded-xl px-5 py-4 text-brand-white font-body text-sm placeholder:text-muted focus:outline-none focus:border-accent-primary/50 transition-colors duration-300"
+        className="w-full premium-glass rounded-xl px-5 py-4 text-brand-white font-body text-sm placeholder:text-muted focus:outline-none focus:border-accent-primary/50 transition-colors duration-[600ms]"
         placeholder={`Your ${label.toLowerCase()}...`}
       />
     </div>
@@ -199,7 +199,7 @@ function ContactLink({
         className="flex items-center gap-4 group cursor-pointer"
         aria-label={`${label}: ${value}`}
       >
-        <div className="w-10 h-10 rounded-xl glass flex items-center justify-center text-accent-primary group-hover:bg-accent-primary group-hover:text-brand-black transition-all duration-300 pointer-events-none">
+        <div className="w-10 h-10 rounded-xl glass flex items-center justify-center text-accent-primary group-hover:bg-accent-primary group-hover:text-brand-black transition-all duration-[600ms] pointer-events-none">
           {icon}
         </div>
         <div className="pointer-events-none">

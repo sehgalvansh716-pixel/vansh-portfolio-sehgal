@@ -136,7 +136,7 @@ export default function Footer() {
                   <a
                     href={link.href}
                     onClick={(e) => smoothNav(e, link.href)}
-                    className="font-body text-brand-white/50 text-sm hover:text-accent-primary transition-colors duration-200"
+                    className="font-body text-brand-white/50 text-sm hover:text-accent-primary transition-colors duration-[600ms]"
                   >
                     {link.label}
                   </a>
@@ -171,7 +171,7 @@ export default function Footer() {
             <button
               onClick={scrollToTop}
               aria-label="Back to top"
-              className="mt-8 md:mt-0 self-start md:self-end w-10 h-10 rounded-full border border-white/15 flex items-center justify-center text-brand-white/50 hover:border-accent-primary hover:text-accent-primary transition-all duration-300"
+              className="mt-8 md:mt-0 self-start md:self-end w-10 h-10 rounded-full border border-white/15 flex items-center justify-center text-brand-white/50 hover:border-accent-primary hover:text-accent-primary transition-all duration-[600ms]"
             >
               <ArrowUp size={16} />
             </button>
@@ -213,7 +213,7 @@ export default function Footer() {
           <a
             href={siteConfig.resumeUrl}
             download
-            className="font-mono text-[10px] uppercase tracking-widest text-accent-primary/50 hover:text-accent-primary transition-colors duration-200"
+            className="font-mono text-[10px] uppercase tracking-widest text-accent-primary/50 hover:text-accent-primary transition-colors duration-[600ms]"
           >
             Download Resume
           </a>
@@ -237,7 +237,7 @@ function SocialIcon({ href, label, icon }: { href: string; label: string; icon: 
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className="w-10 h-10 rounded-xl glass flex items-center justify-center text-brand-white/50 hover:text-accent-primary hover:border-accent-primary/40 transition-all duration-300"
+      className="w-10 h-10 rounded-xl glass flex items-center justify-center text-brand-white/50 hover:text-accent-primary hover:border-accent-primary/40 transition-all duration-[600ms]"
     >
       {icon}
     </a>

@@ -341,7 +341,8 @@ body {
   isolation: isolate;
 }
 
-.premium-glass:hover {
+.premium-glass:hover,
+.premium-glass.hover-emulate {
   background-color: rgb(var(--btn-indigo-bg) / 0.16);
   border-color: rgb(var(--btn-indigo-border) / 0.45);
   border-top-color: rgb(var(--btn-indigo-top) / 0.6);
